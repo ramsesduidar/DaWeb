@@ -1,8 +1,22 @@
-body {
+main {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: "Lucida Grande", Helvetica, Arial, sans-serif;
+  /*background-image: url('/images/background3.jpg');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f8f9fa; /* Color de fondo de respaldo */
+  /*height: 100vh; /* Altura del body igual al 100% del viewport height */
 }
 
 a {
   color: #00B7FF;
+}
+
+header{
+  background-color:  #00B7FF;
+  height: 70px;
+  padding: 10px;
+  border-bottom: 2px solid #00487C;
+  color:rgb(35, 33, 33)
 }
