@@ -1,24 +1,26 @@
 <link rel="stylesheet" href="/stylesheets/login.css">
+<script src='./javascripts/login-script.js'></script>
 <header>
     <h1>CityBike</h1>
 </header>
 <main class="wrapper">
     <div class="form-wrapper sig-in">
-        <form action="">
+        <form id="login-form" action="">
             <h2 style="margin: 30px 0;">Inicia sesión en CityBike</h2>
+            <span id="error-login" class="error">Usuario o contraseña no son válidos</span>
             <div class="input-group">
-                <input type="text" required>
-                <label for="">Nombre usuario</label>
+                <input type="text" id="username" name="username" required>
+                <label for="username">Nombre usuario</label>
             </div>
             <div class="input-group">
-                <input type="password" required>
-                <label for="">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+                <label for="password">Contraseña</label>
             </div>
-            <button type="submit" class="btn">Iniciar sesión</button>
+            <button id="boton-login-normal" type="submit" class="btn">Iniciar sesión</button>
             <div class="divider">
                 <p>También puedes</p>
             </div>
-            <button type="submit" class="btn auth-git">
+            <button id="boton-login-github" type="submit" class="btn auth-git">
              <i class="fab fa-github me-2"></i>Continua con GitHub
             </button>
             <div class="sign-link">

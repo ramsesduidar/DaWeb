@@ -1,0 +1,28 @@
+nav {
+    height: auto;
+    background-color: orange;
+    margin: 1em, 0em;
+}
+
+nav ul{
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    height: 50px;
+    gap: 3em;
+    list-style: none;
+}
+
+@media (min-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        gap: 1em; /* Ajusta el espacio entre elementos en dirección de columna */
+        height: 200px;
+    }
+}
+
+nav ul li{
+    font-size: 1rem;
+}
+
+

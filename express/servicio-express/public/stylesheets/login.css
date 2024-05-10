@@ -175,3 +175,8 @@ h2 {
     background: #eee;
 }
 
+#error-login {
+    color: red;
+    display: none;
+}
+
