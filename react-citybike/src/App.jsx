@@ -4,7 +4,7 @@ import NavbarGestor from './navbar/NavbarGestor';
 import UsuarioMain from './usuario/UsuarioMain';
 import GestorMain from './gestor/GestorMain';
 
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -17,6 +17,7 @@ const role = 'usuario'; // Puedes cambiar esto dinámicamente
 
 function App() {
   return (
+    <BrowserRouter>
     <Container fluid className='contenedor-flex'>
       <Row>
         <Col>
@@ -26,14 +27,14 @@ function App() {
         </Col>
       </Row>
       <Row className='main'>
-        <Col xs={12} md={3}>
+        <Col xs={12} md={3} className='columna-flex'>
           {role === 'usuario' ? <NavbarUsuario /> : <NavbarGestor />}
         </Col>
         <Col xs={12} md={9}>
           <main>
-            <BrowserRouter>
+            
               <Switch>
-                <Route path="/">
+                <Route exact path="/">
                   <h2>Contenido común para todos los roles</h2>
                 </Route>
                 <Route path="/usuario">
@@ -42,9 +43,8 @@ function App() {
                 <Route path="/gestor">
                   <GestorMain />
                 </Route>
-                <Redirect to="/" />
               </Switch>
-            </BrowserRouter>
+            
           </main>
         </Col>
       </Row>
@@ -54,6 +54,7 @@ function App() {
         </Col>
       </Row>
     </Container>
+    </BrowserRouter>
   );
 }
 

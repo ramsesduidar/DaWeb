@@ -2,7 +2,7 @@ import './Navbar.css';
 
 function NavbarUsuario() {
   return (
-    <nav className="navbar">
+    <nav>
       <ul>
         <li>
             Opcion 1
