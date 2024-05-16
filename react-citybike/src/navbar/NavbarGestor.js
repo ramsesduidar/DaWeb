@@ -1,17 +1,22 @@
+import Logout from '../Logout';
 import './Navbar.css';
+import { Link } from 'react-router-dom';
 
 function NavbarGestor() {
   return (
     <nav className="navbar">
       <ul>
         <li>
-            <h3>Opcion 4</h3>
+          <Link to="/">Home</Link>
         </li>
         <li>
-            <h3>Opcion 5</h3>
+          <Link to='/estaciones'>Estaciones</Link>
         </li>
         <li>
-            <h3>Opcion 6</h3>
+          <Link to="/bicis">Bicis</Link>
+        </li>
+        <li>
+          <Logout/>
         </li>
       </ul>
     </nav>

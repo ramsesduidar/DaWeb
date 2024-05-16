@@ -1,7 +1,6 @@
 if (localStorage.getItem("token") && localStorage.getItem("claims")) {
-    var rol = JSON.parse(localStorage.getItem("claims")).Roles;
-    rol = rol.toLowerCase(); 
-    window.location.href = `http://localhost:3000/${rol}`;
+    var user = localStorage.getItem("username");
+    window.location.href = `http://localhost:3000/profile/${user}`;
 }
 
 window.onload = function() {
@@ -44,6 +43,7 @@ async function loginNormal(e){
         console.log("Hemos iniciado sesion con el rol: " + claims.Roles + " y el token: " + token)
         localStorage.setItem("token", token);
         localStorage.setItem("claims", JSON.stringify(claims));
+        localStorage.setItem("username", claims.sub);
 
         let req1 = new Request(`http://localhost:3030/auth/${claims.sub}`, {
             method: 'POST',
@@ -57,11 +57,11 @@ async function loginNormal(e){
 
         fetch(req1)
         .then(response2 => {
-            var rol = JSON.parse(localStorage.getItem("claims")).Roles;
-            rol = rol.toLowerCase();
+            var user = localStorage.getItem("username");
             if (response2.status == 204){
-                window.location.href = `http://localhost:3000/${rol}`;
+                window.location.href = `http://localhost:3000/profile/${user}`;
                 window.location.reload();
+                console.log(`http://localhost:3000/${user}`)
             }
             else{
                 console.log("Error inesperado al iniciar sesion, intentelo de nuevo");

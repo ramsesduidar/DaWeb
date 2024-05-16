@@ -5,11 +5,22 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   // Código JavaScript que se ejecutará en el navegador del cliente para limpiar el localStorage
   const script = `
-    // Limpiar el localStorage
-    localStorage.removeItem("token");
-    localStorage.removeItem("claims");
-    console.log('¡localStorage limpiado!');
-    window.location.href = "http://localhost:3030/login";
+  let user = localStorage.getItem("username");
+
+  let req = new Request(\`http://localhost:3030/auth/\${user}\`, {
+    method: 'DELETE',
+    redirect: 'follow',
+  })
+  
+  fetch(req)
+    .then(response => {
+        // Limpiar el localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("claims");
+        localStorage.removeItem("username");
+        console.log('¡localStorage limpiado!');
+        window.location.href = "http://localhost:3030/login";
+      })
   `;
 
   // Enviar el código JavaScript al cliente para ejecutarlo
@@ -17,3 +28,4 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+

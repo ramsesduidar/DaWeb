@@ -14,22 +14,22 @@ function Footer() {
             </p>
           </div>
           <div className="column links">
-            <h3>Quick Links</h3>
-            <ul>
-              <li>
-                <a href="#faq">F.A.Q</a>
+            <h3 className="footer-h3">Quick Links</h3>
+            <ul className="footer-ul">
+              <li className="footer-li">
+                <a className="footer-a" href="#faq">F.A.Q</a>
               </li>
-              <li>
-                <a href="#cookies-policy">Cookies Policy</a>
+              <li className="footer-li">
+                <a className="footer-a" href="#cookies-policy">Cookies Policy</a>
               </li>
-              <li>
-                <a href="#terms-of-services">Terms Of Service</a>
+              <li className="footer-li">
+                <a className="footer-a" href="#terms-of-services">Terms Of Service</a>
               </li>
-              <li>
-                <a href="#support">Support</a>
+              <li className="footer-li">
+                <a className="footer-a" href="#support">Support</a>
               </li>
-              <li>
-                <a href="#careers">Careers</a>
+              <li className="footer-li">
+                <a className="footer-a" href="#careers">Careers</a>
               </li>
             </ul>
           </div>

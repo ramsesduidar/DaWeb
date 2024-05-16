@@ -1,14 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import App from './App';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import UserProfile from './UserProfile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+   
+      <Switch>
+       
+      <Route path="/profile/:username">
+          <UserProfile/>
+        </Route>
+        
+        <Route path="*">
+          <App/>
+        </Route>
+
+      </Switch>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
