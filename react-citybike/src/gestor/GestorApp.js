@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Estaciones from './Estaciones';
 import Bicis from './Bicis';
 import NavbarGestor from '../navbar/NavbarGestor';
 import Footer from '../footer/Footer';
@@ -10,6 +9,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import EstacionesList from './EstacionesList';
+import EstacionDetail from './EstacionDetail';
 
 
 function GestorApp() {
@@ -32,11 +33,17 @@ function GestorApp() {
                 <Route exact path="/">
                   <h2>Contenido main gestor</h2>
                 </Route>
+                <Route path="/estaciones/:id">
+                  <EstacionDetail/>
+                </Route>
                 <Route path="/estaciones">
-                  <Estaciones />
+                  <EstacionesList />
                 </Route>
                 <Route path="/bicis">
                   <Bicis />
+                </Route>
+                <Route path="*">
+                  <h1>Not Found</h1>
                 </Route>
               </Switch>
           </main>
