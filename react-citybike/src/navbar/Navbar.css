@@ -12,6 +12,8 @@ nav ul{
     gap: 3em;
     list-style: none;
     flex-grow: 1;
+    padding-top: 1rem;
+    padding-left: 1rem;
 }
 
 @media (min-width: 768px) {

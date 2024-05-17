@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+.app-header{
+    width: 100%;
+    padding: 48px 32px 0;
+    color: #fff;
+    background-color: #000;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+    .app-header {
+        padding: 32px 0px 32px 51px;
+        margin-bottom: 0px;
+    }
+}
+
+.app-header h1{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function NavbarGestor() {
   return (
-    <nav className="navbar">
+    <nav>
       <ul>
         <li>
           <Link to="/">Home</Link>

@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import './GestorApp.css'
+
 import Bicis from './Bicis';
 import NavbarGestor from '../navbar/NavbarGestor';
 import Footer from '../footer/Footer';
@@ -11,23 +13,22 @@ import Col from 'react-bootstrap/Col';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EstacionesList from './EstacionesList';
 import EstacionDetail from './EstacionDetail';
+import { Header } from '../header/Header';
 
 
 function GestorApp() {
   return (
     <Container fluid className='contenedor-flex'>
       <Row>
-        <Col>
-          <header>
-            <h1>Header</h1>
-          </header>
+        <Col className='no-padding'>
+          <Header></Header>
         </Col>
       </Row>
       <Row className='main'>
-        <Col xs={12} md={2} className='columna-flex'>
+        <Col xs={12} md={2} className='columna-flex no-padding'>
           <NavbarGestor />
         </Col>
-        <Col xs={12} md={10}>
+        <Col xs={12} md={10} className='no-padding'>
           <main>
               <Switch>
                 <Route exact path="/">
@@ -50,7 +51,7 @@ function GestorApp() {
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col className='no-padding'>
           <Footer/>
         </Col>
       </Row>

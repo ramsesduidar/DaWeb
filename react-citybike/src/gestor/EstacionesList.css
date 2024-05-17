@@ -1,0 +1,12 @@
+.estaciones-tabla{
+    width: 90%;
+    font-size: 0.75rem;
+}
+
+.estaciones-label{
+    font-size: 0.75rem;
+}
+
+.estaciones-pagination{
+    --bs-pagination-font-size: 0.75rem;
+}

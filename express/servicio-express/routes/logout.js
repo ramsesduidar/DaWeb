@@ -15,9 +15,7 @@ router.get('/', function(req, res, next) {
   fetch(req)
     .then(response => {
         // Limpiar el localStorage
-        localStorage.removeItem("token");
-        localStorage.removeItem("claims");
-        localStorage.removeItem("username");
+        localStorage.clear();
         console.log('¡localStorage limpiado!');
         window.location.href = "http://localhost:3030/login";
       })

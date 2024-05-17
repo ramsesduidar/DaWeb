@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import Pagination from 'react-bootstrap/Pagination';
+
+import './EstacionesList.css';
 
 const EstacionesList = () => {
   const [estaciones, setEstaciones] = useState([]);
+  const [links, setLinks] = useState({});
+  const [pageInfo, setPageInfo] = useState({});
+  const [size, setSize] = useState(10)
 
-  useEffect(() => {
-    const fetchEstaciones = async () => {
+
+  const fetchEstaciones = async (url=`http://localhost:8090/estaciones?page=0&size=${size}`) => {
       try {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -17,7 +23,11 @@ const EstacionesList = () => {
           Authorization: `Bearer ${token}`,
         };
 
-        const response = await fetch('http://localhost:8090/estaciones?page=0&size=10', { headers });
+        url = url.replace('/?', '?');
+        url = url.replace('//estaciones:', '//localhost:');
+        url = url.replace(':8081', ':8090');
+
+        const response = await fetch(url, { headers });
         if (!response.ok) {
           throw new Error('Error al obtener datos');
         }
@@ -26,24 +36,46 @@ const EstacionesList = () => {
         if (data._embedded && data._embedded.estacionDTOList) {
           setEstaciones(data._embedded.estacionDTOList);
         }
+        if (data._links) {
+          setLinks(data._links);
+        }
+        if (data.page) {
+          setPageInfo(data.page);
+        }
       } catch (error) {
         console.error('Error al obtener datos:', error);
       }
     };
 
+  useEffect(() => {
     fetchEstaciones();
-  }, []);
+  }, [size]);
 
   return (
     <div>
-      <h2>Listado de Estaciones</h2>
-      <Table striped bordered hover>
+      <h2>{"Listado de Estaciones: Existen "+pageInfo.totalElements+" elementos"}</h2>
+      <Pagination className='estaciones-pagination'>
+        <Pagination.First onClick={() => fetchEstaciones(links.first.href)} active={!links.prev}>First</Pagination.First>
+        <Pagination.Prev onClick={() => fetchEstaciones(links.prev.href)} disabled={!links.prev}>Prev.</Pagination.Prev>
+        <Pagination.Item disabled={true}>{(pageInfo.number+1)+'/'+pageInfo.totalPages}</Pagination.Item>
+        <Pagination.Next onClick={() => fetchEstaciones(links.next.href)} disabled={!links.next}>Next</Pagination.Next>
+        <Pagination.Last onClick={() => fetchEstaciones(links.last.href)} active={!links.next}>Last</Pagination.Last>
+      </Pagination>
+      <label className='estaciones-label'>
+        Tamaño de página:
+        <select value={size} onChange={(e)=>setSize(e.target.value)}>
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+        </select>
+      </label>
+      <Table striped bordered hover responsive size='md' className='estaciones-tabla'>
         <thead>
           <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Fecha de Alta</th>
-            <th>Número de Puestos</th>
+            <th>Puestos totales</th>
             <th>Huecos Libres</th>
             <th>Dirección</th>
             <th>Coordenadas</th>
@@ -65,6 +97,7 @@ const EstacionesList = () => {
           ))}
         </tbody>
       </Table>
+      
     </div>
   );
 };
