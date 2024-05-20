@@ -11,9 +11,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import EstacionesList from './EstacionesList';
 import EstacionDetail from './EstacionDetail';
 import { Header } from '../header/Header';
+import PageEstaciones from './PageEstaciones';
 
 
 function GestorApp() {
@@ -38,7 +38,7 @@ function GestorApp() {
                   <EstacionDetail/>
                 </Route>
                 <Route path="/estaciones">
-                  <EstacionesList />
+                  <PageEstaciones />
                 </Route>
                 <Route path="/bicis">
                   <Bicis />

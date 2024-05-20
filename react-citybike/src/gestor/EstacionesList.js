@@ -5,12 +5,10 @@ import Pagination from 'react-bootstrap/Pagination';
 
 import './EstacionesList.css';
 
-const EstacionesList = () => {
-  const [estaciones, setEstaciones] = useState([]);
-  const [links, setLinks] = useState({});
-  const [pageInfo, setPageInfo] = useState({});
-  const [size, setSize] = useState(10)
-
+const EstacionesList = ({refresh}) => {
+  const [respuesta, setRespuesta] = useState([]);
+  const [size, setSize] = useState(5);
+  const [loading, setLoading] = useState(true);
 
   const fetchEstaciones = async (url=`http://localhost:8090/estaciones?page=0&size=${size}`) => {
       try {
@@ -33,15 +31,12 @@ const EstacionesList = () => {
         }
         
         const data = await response.json();
+        
         if (data._embedded && data._embedded.estacionDTOList) {
-          setEstaciones(data._embedded.estacionDTOList);
+          setRespuesta(data);
+          setLoading(false);
         }
-        if (data._links) {
-          setLinks(data._links);
-        }
-        if (data.page) {
-          setPageInfo(data.page);
-        }
+        
       } catch (error) {
         console.error('Error al obtener datos:', error);
       }
@@ -49,17 +44,18 @@ const EstacionesList = () => {
 
   useEffect(() => {
     fetchEstaciones();
-  }, [size]);
+  }, [size, refresh]);
 
   return (
     <div>
-      <h2>{"Listado de Estaciones: Existen "+pageInfo.totalElements+" elementos"}</h2>
+      {loading ? ("Cargando...") : (<>
+      <h2>{"Listado de Estaciones: Existen "+respuesta.page.totalElements+" estaciones"}</h2>
       <Pagination className='estaciones-pagination'>
-        <Pagination.First onClick={() => fetchEstaciones(links.first.href)} active={!links.prev}>First</Pagination.First>
-        <Pagination.Prev onClick={() => fetchEstaciones(links.prev.href)} disabled={!links.prev}>Prev.</Pagination.Prev>
-        <Pagination.Item disabled={true}>{(pageInfo.number+1)+'/'+pageInfo.totalPages}</Pagination.Item>
-        <Pagination.Next onClick={() => fetchEstaciones(links.next.href)} disabled={!links.next}>Next</Pagination.Next>
-        <Pagination.Last onClick={() => fetchEstaciones(links.last.href)} active={!links.next}>Last</Pagination.Last>
+        <Pagination.First onClick={() => fetchEstaciones(respuesta._links.first.href)} active={!respuesta._links.prev}>First</Pagination.First>
+        <Pagination.Prev onClick={() => fetchEstaciones(respuesta._links.prev.href)} disabled={!respuesta._links.prev}>Prev.</Pagination.Prev>
+        <Pagination.Item disabled={true}>{(respuesta.page.number+1)+'/'+respuesta.page.totalPages}</Pagination.Item>
+        <Pagination.Next onClick={() => fetchEstaciones(respuesta._links.next.href)} disabled={!respuesta._links.next}>Next</Pagination.Next>
+        <Pagination.Last onClick={() => fetchEstaciones(respuesta._links.last.href)} active={!respuesta._links.next}>Last</Pagination.Last>
       </Pagination>
       <label className='estaciones-label'>
         Tamaño de página:
@@ -83,7 +79,7 @@ const EstacionesList = () => {
           </tr>
         </thead>
         <tbody>
-          {estaciones.map(estacion => (
+          {respuesta._embedded.estacionDTOList.map(estacion => (
             <tr key={estacion.id}>
               <td>{estacion.id}</td>
               <td>{estacion.nombre}</td>
@@ -97,7 +93,8 @@ const EstacionesList = () => {
           ))}
         </tbody>
       </Table>
-      
+      </>
+      )}
     </div>
   );
 };
