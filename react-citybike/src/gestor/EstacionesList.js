@@ -4,51 +4,23 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Pagination from 'react-bootstrap/Pagination';
 
 import './EstacionesList.css';
+import useEstacionesList from './hooks/useEstacionesList';
 
 const EstacionesList = ({refresh}) => {
-  const [respuesta, setRespuesta] = useState([]);
+  
   const [size, setSize] = useState(5);
-  const [loading, setLoading] = useState(true);
+  const { respuesta, loading, fetchEstaciones } = useEstacionesList(size, refresh);
 
-  const fetchEstaciones = async (url=`http://localhost:8090/estaciones?page=0&size=${size}`) => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token no encontrado en localStorage');
-        }
+  if (loading){
+    return (<div>Cargando...</div>);
+  }
 
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        url = url.replace('/?', '?');
-        url = url.replace('//estaciones:', '//localhost:');
-        url = url.replace(':8081', ':8090');
-
-        const response = await fetch(url, { headers });
-        if (!response.ok) {
-          throw new Error('Error al obtener datos');
-        }
-        
-        const data = await response.json();
-        
-        if (data._embedded && data._embedded.estacionDTOList) {
-          setRespuesta(data);
-          setLoading(false);
-        }
-        
-      } catch (error) {
-        console.error('Error al obtener datos:', error);
-      }
-    };
-
-  useEffect(() => {
-    fetchEstaciones();
-  }, [size, refresh]);
+  if (respuesta.page.totalElements == 0){
+    return (<div>No existen Estaciones</div>);
+  }
 
   return (
     <div>
-      {loading ? ("Cargando...") : (<>
       <h2>{"Listado de Estaciones: Existen "+respuesta.page.totalElements+" estaciones"}</h2>
       <Pagination className='estaciones-pagination'>
         <Pagination.First onClick={() => fetchEstaciones(respuesta._links.first.href)} active={!respuesta._links.prev}>First</Pagination.First>
@@ -93,8 +65,6 @@ const EstacionesList = ({refresh}) => {
           ))}
         </tbody>
       </Table>
-      </>
-      )}
     </div>
   );
 };
