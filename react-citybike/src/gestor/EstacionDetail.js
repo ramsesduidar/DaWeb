@@ -3,15 +3,25 @@ import { useParams } from 'react-router-dom';
 import useEstacionesDeatil from './hooks/useEstacionesDeatil';
 import BicisList from './BicisList';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 import AddBici from './AddBici';
 
 const EstacionDetail = () => {
-  const [exito, setExito] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const { id } = useParams();
   const { estacion } = useEstacionesDeatil(id, refresh);
   
+  const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
+
+  const handleSuccess = (message) => {
+    setNotification({ show: true, message, variant: 'success' });
+    setRefresh(!refresh);
+  };
+
+  const handleError = (message) => {
+    setNotification({ show: true, message, variant: 'danger' });
+  };
 
   if (!estacion) {
     return <p>Cargando...</p>;
@@ -28,19 +38,28 @@ const EstacionDetail = () => {
       <p><strong>Dirección:</strong> {estacion.direccion}</p>
       <p><strong>Coordenadas:</strong> ({estacion.coordenadas.x}, {estacion.coordenadas.y})</p>
     </div>
-    <BicisList refresh={refresh} setRefresh={setRefresh} idEstacion={estacion.id}></BicisList>
-    <Button variant="primary" onClick={() => setModalShow(true)}>
+    <BicisList 
+        refresh={refresh} 
+        setRefresh={setRefresh} 
+        idEstacion={estacion.id}
+    />
+    <Button variant="primary" disabled={!estacion.huecosLibres} onClick={() => setModalShow(true)}>
             Add Bici +
         </Button>
     <AddBici
         idEstacion={estacion.id}
         show={modalShow}
-        onHide={() => {setModalShow(false); setExito(false)}}
-        onSuccess={() => {setModalShow(false); setExito(true); setRefresh(!refresh)}}
+        onHide={() => {setModalShow(false);}}
+        onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
+        onError={(message) => { setModalShow(false); handleError(message); }}
         backdrop="static"
         keyboard={true} // true para poder cerrar modal con boton ESC
       />
-      <p style={{display: exito ? "block": "none"}}>Bici creada con éxito!!!</p>
+      {notification.show && (
+        <Alert variant={notification.variant} onClose={() => setNotification({ show: false, message: '', variant: 'success' })} dismissible>
+          {notification.message}
+        </Alert>
+      )}
     </div>
 
   );

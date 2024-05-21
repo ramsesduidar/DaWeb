@@ -23,11 +23,11 @@ const EstacionesList = ({refresh}) => {
     <div>
       <h2>{"Listado de Estaciones: Existen "+respuesta.page.totalElements+" estaciones"}</h2>
       <Pagination className='estaciones-pagination'>
-        <Pagination.First onClick={() => fetchEstaciones(respuesta._links.first.href)} active={!respuesta._links.prev}>First</Pagination.First>
+        <Pagination.First onClick={() => fetchEstaciones(respuesta._links.first.href)} active={!respuesta._links.prev} disabled={!respuesta._links.first}>First</Pagination.First>
         <Pagination.Prev onClick={() => fetchEstaciones(respuesta._links.prev.href)} disabled={!respuesta._links.prev}>Prev.</Pagination.Prev>
         <Pagination.Item disabled={true}>{(respuesta.page.number+1)+'/'+respuesta.page.totalPages}</Pagination.Item>
         <Pagination.Next onClick={() => fetchEstaciones(respuesta._links.next.href)} disabled={!respuesta._links.next}>Next</Pagination.Next>
-        <Pagination.Last onClick={() => fetchEstaciones(respuesta._links.last.href)} active={!respuesta._links.next}>Last</Pagination.Last>
+        <Pagination.Last onClick={() => fetchEstaciones(respuesta._links.last.href)} active={!respuesta._links.next} disabled={!respuesta._links.last}>Last</Pagination.Last>
       </Pagination>
       <label className='estaciones-label'>
         Tamaño de página:

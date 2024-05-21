@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function AddBici(props) {
+function AddBici({idEstacion, onSuccess,  onError, ...props}) {
 
   const [validated, setValidated] = useState(false);
   
@@ -22,12 +22,12 @@ function AddBici(props) {
     else{
         var info = {
             modelo: form.modelo.value,
-            idEstacion: props.idEstacion,
+            idEstacion: idEstacion,
         };
 
         const token = localStorage.getItem('token');
         if (!token) {
-          throw new Error('Token no encontrado en localStorage');
+          onError('Token no encontrado en localStorage');
         }
 
 
@@ -43,15 +43,20 @@ function AddBici(props) {
 
         fetch(req)
         .then(response => {
-            if (response.status == 201){
+            if (response.ok){
                 //
                 form.reset();
-                props.onSuccess();
+                onSuccess("Bici creada con éxito!");
             }
             else{
                 console.log("Error inesperado al crear la bici, intentelo de nuevo");
+                onError("Error inesperado al crear la bici, intentelo de nuevo");
             }
         })
+        .catch(error => {
+          console.log(error);
+          onError(error.message)
+      })
     }
 
   };
@@ -65,7 +70,7 @@ function AddBici(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          Crear bicicleta
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -85,7 +90,7 @@ function AddBici(props) {
         <Row className='mb-3'>
             <Form.Group as={Col} md="4" controlId="idEstacion">
                 <Form.Label>Id de la Estación</Form.Label>
-                <Form.Control plaintext readOnly defaultValue={props.idEstacion} />
+                <Form.Control plaintext readOnly defaultValue={idEstacion} />
             </Form.Group>
         </Row>
         <Button type="submit">Crear Bici</Button>

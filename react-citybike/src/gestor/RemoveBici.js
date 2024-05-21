@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function RemoveBici(props) {
+function RemoveBici({idBici, onSuccess, onError, ...props}) {
 
   const [validated, setValidated] = useState(false);
   
@@ -22,16 +22,16 @@ function RemoveBici(props) {
     else{
         var info = {
             motivo: form.motivo.value,
-            idBici: props.idBici,
+            idBici: idBici,
         };
 
         const token = localStorage.getItem('token');
         if (!token) {
-          throw new Error('Token no encontrado en localStorage');
+          onError('Token no encontrado en localStorage');
         }
 
 
-        let req = new Request(`http://localhost:8090/bicis/${props.idBici}`, {
+        let req = new Request(`http://localhost:8090/bicis/${idBici}`, {
             method: 'PATCH',
             redirect: 'follow',
             headers: new Headers({
@@ -46,12 +46,16 @@ function RemoveBici(props) {
             if (response.status == 204){
                 //
                 form.reset();
-                props.onSuccess();
+                onSuccess("Bici dada de baja con éxito!");
             }
             else{
-                console.log("Error inesperado al dar de baja la bici, intentelo de nuevo");
+                onError("Error inesperado al dar de baja la bici, intentelo de nuevo");
             }
         })
+        .catch(error => {
+          console.log(error);
+          onError(error.message)
+      })
     }
 
   };
@@ -65,7 +69,7 @@ function RemoveBici(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          Dar de baja bicicleta
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -85,7 +89,7 @@ function RemoveBici(props) {
         <Row className='mb-3'>
             <Form.Group as={Col} md="4" controlId="idEstacion">
                 <Form.Label>Id de la Bici</Form.Label>
-                <Form.Control plaintext readOnly defaultValue={props.idBici} />
+                <Form.Control plaintext readOnly defaultValue={idBici} />
             </Form.Group>
         </Row>
         <Button type="submit">Dar de baja</Button>

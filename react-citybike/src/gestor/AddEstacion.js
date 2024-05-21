@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function AddEstacion(props) {
+function AddEstacion({onSuccess, onError, ...props}) {
 
   const [validated, setValidated] = useState(false);
   
@@ -30,7 +30,7 @@ function AddEstacion(props) {
 
         const token = localStorage.getItem('token');
         if (!token) {
-          throw new Error('Token no encontrado en localStorage');
+          onError('Token no encontrado en localStorage');
         }
 
 
@@ -49,11 +49,14 @@ function AddEstacion(props) {
             if (response.status == 201){
                 //
                 form.reset();
-                props.onSuccess();
+                onSuccess('Estación creada con éxito!');
             }
             else{
-                console.log("Error inesperado al crear la estación, intentelo de nuevo");
+                throw new Error("Error inesperado al crear la estación, intentelo de nuevo");
             }
+        })
+        .catch( error => {
+            onError(error.message);
         })
     }
 
@@ -68,7 +71,7 @@ function AddEstacion(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          Crear Estación
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
