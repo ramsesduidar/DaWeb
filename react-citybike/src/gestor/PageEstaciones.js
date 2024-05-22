@@ -51,7 +51,13 @@ function PageEstaciones() {
         />
        
        {notification.show && (
-        <Alert variant={notification.variant} onClose={() => setNotification({ show: false, message: '', variant: 'success' })} dismissible>
+        <Alert  style={{    
+          position: "fixed",
+          top: "10px",
+          left: "12.5%",
+          width: "75%",
+          zIndex: 10 
+        }} variant={notification.variant} onClose={() => setNotification({ show: false, message: '', variant: 'success' })} dismissible>
           {notification.message}
         </Alert>
       )}

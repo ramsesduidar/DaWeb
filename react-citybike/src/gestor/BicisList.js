@@ -37,11 +37,11 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
     <div>
       <h2>{"Listado de Biciletas: Existen "+respuesta.page.totalElements+" bicicletas"}</h2>
       <Pagination className='estaciones-pagination'>
-        <Pagination.First onClick={() => fetchBicis(respuesta._links.first.href)} active={!respuesta._links.prev} disabled={!respuesta._links.first}>First</Pagination.First>
-        <Pagination.Prev onClick={() => fetchBicis(respuesta._links.prev.href)} disabled={!respuesta._links.prev}>Prev.</Pagination.Prev>
+        <Pagination.First onClick={() => fetchBicis(respuesta.links.first.href)} active={!respuesta.links.prev} disabled={!respuesta.links.first}>First</Pagination.First>
+        <Pagination.Prev onClick={() => fetchBicis(respuesta.links.prev.href)} disabled={!respuesta.links.prev}>Prev.</Pagination.Prev>
         <Pagination.Item disabled={true}>{(respuesta.page.number+1)+'/'+respuesta.page.totalPages}</Pagination.Item>
-        <Pagination.Next onClick={() => fetchBicis(respuesta._links.next.href)} disabled={!respuesta._links.next}>Next</Pagination.Next>
-        <Pagination.Last onClick={() => fetchBicis(respuesta._links.last.href)} active={!respuesta._links.next} disabled={!respuesta._links.last}>Last</Pagination.Last>
+        <Pagination.Next onClick={() => fetchBicis(respuesta.links.next.href)} disabled={!respuesta.links.next}>Next</Pagination.Next>
+        <Pagination.Last onClick={() => fetchBicis(respuesta.links.last.href)} active={!respuesta.links.next} disabled={!respuesta.links.last}>Last</Pagination.Last>
       </Pagination>
       <label className='estaciones-label'>
         Tamaño de página:
@@ -61,7 +61,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
           </tr>
         </thead>
         <tbody>
-          {respuesta._embedded?.biciDTOList?.map(bici => (
+          {respuesta.bicis?.map(bici => (
             <tr key={bici.id}>
               <td>{bici.id}</td>
               <td>{bici.modelo}</td>
@@ -79,7 +79,13 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
         </tbody>
       </Table>
       {notification.show && (
-        <Alert variant={notification.variant} onClose={() => setNotification({ show: false, message: '', variant: 'success' })} dismissible>
+        <Alert style={{    
+          position: "fixed",
+          top: "10px",
+          left: "12.5%",
+          width: "75%",
+          zIndex: 10 
+        }} variant={notification.variant} onClose={() => setNotification({ show: false, message: '', variant: 'success' })} dismissible>
           {notification.message}
         </Alert>
       )}

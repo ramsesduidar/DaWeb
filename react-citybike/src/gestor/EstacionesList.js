@@ -23,11 +23,11 @@ const EstacionesList = ({refresh}) => {
     <div>
       <h2>{"Listado de Estaciones: Existen "+respuesta.page.totalElements+" estaciones"}</h2>
       <Pagination className='estaciones-pagination'>
-        <Pagination.First onClick={() => fetchEstaciones(respuesta._links.first.href)} active={!respuesta._links.prev} disabled={!respuesta._links.first}>First</Pagination.First>
-        <Pagination.Prev onClick={() => fetchEstaciones(respuesta._links.prev.href)} disabled={!respuesta._links.prev}>Prev.</Pagination.Prev>
+        <Pagination.First onClick={() => fetchEstaciones(respuesta.links.first.href)} active={!respuesta.links.prev} disabled={!respuesta.links.first}>First</Pagination.First>
+        <Pagination.Prev onClick={() => fetchEstaciones(respuesta.links.prev.href)} disabled={!respuesta.links.prev}>Prev.</Pagination.Prev>
         <Pagination.Item disabled={true}>{(respuesta.page.number+1)+'/'+respuesta.page.totalPages}</Pagination.Item>
-        <Pagination.Next onClick={() => fetchEstaciones(respuesta._links.next.href)} disabled={!respuesta._links.next}>Next</Pagination.Next>
-        <Pagination.Last onClick={() => fetchEstaciones(respuesta._links.last.href)} active={!respuesta._links.next} disabled={!respuesta._links.last}>Last</Pagination.Last>
+        <Pagination.Next onClick={() => fetchEstaciones(respuesta.links.next.href)} disabled={!respuesta.links.next}>Next</Pagination.Next>
+        <Pagination.Last onClick={() => fetchEstaciones(respuesta.links.last.href)} active={!respuesta.links.next} disabled={!respuesta.links.last}>Last</Pagination.Last>
       </Pagination>
       <label className='estaciones-label'>
         Tamaño de página:
@@ -51,7 +51,7 @@ const EstacionesList = ({refresh}) => {
           </tr>
         </thead>
         <tbody>
-          {respuesta._embedded.estacionDTOList.map(estacion => (
+          {respuesta.estaciones?.map(estacion => (
             <tr key={estacion.id}>
               <td>{estacion.id}</td>
               <td>{estacion.nombre}</td>
@@ -59,7 +59,7 @@ const EstacionesList = ({refresh}) => {
               <td>{estacion.numPuestos}</td>
               <td>{estacion.huecosLibres}</td>
               <td>{estacion.direccion}</td>
-              <td>{`(${estacion.coordenadas.x}, ${estacion.coordenadas.y})`}</td>
+              <td>{`(${estacion.coordenadas?.x}, ${estacion.coordenadas?.y})`}</td>
               <td><Link to={`/estaciones/${estacion.id}`}>Link</Link></td>
             </tr>
           ))}

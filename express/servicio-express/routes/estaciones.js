@@ -40,12 +40,43 @@ router.delete('/:id', async function(req, res, next) {
 router.put('/:id',  async function(req, res, next) {
   try {
     const db = await connectToDatabase();
-    const query = { _id: new ObjectId(req.params.id) };
     let collection = await db.collection("estacion");
-    let result = await collection.replaceOne(query, req.body);
-    res.send(result).status(200);
+
+    const id = new ObjectId(req.params.id);
+    const { nombre, numPuestos, direccion, latitud, longitud } = req.body;
+
+    // Obtener el documento actual
+    const estacionActual = await collection.findOne({ _id: id });
+
+    if (!estacionActual) {
+      return res.status(404).send({ error: 'Estación no encontrada' });
+    }
+
+    // Crear el documento actualizado
+    const updatedEstacion = {
+      nombre: nombre || estacionActual.nombre,
+      numPuestos: Math.max(numPuestos, estacionActual.numPuestos),
+      direccion: direccion || estacionActual.direccion,
+      coordenadas: {
+        x: latitud || estacionActual.coordenadas.x,
+        y: longitud || estacionActual.coordenadas.y
+      }
+     
+    };
+
+    // Actualizar el documento en la base de datos
+    const result = await collection.updateOne(
+      { _id: id },
+      { $set: {...updatedEstacion} }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(400).send({ error: 'No se pudo actualizar la estación' });
+    }
+
+    res.send({ message: 'Estación actualizada con éxito' }).status(200);
   } catch (error) {
-    res.send({error: error.message}).status(500);
+    res.send({ error: error.message }).status(500);
   }
     
 });

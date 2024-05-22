@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { crearEstacion } from '../api/ApiEstaciones';
 
 function AddEstacion({onSuccess, onError, ...props}) {
 
@@ -28,32 +29,10 @@ function AddEstacion({onSuccess, onError, ...props}) {
             longitud: Number(form.longitud.value)
         };
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-          onError('Token no encontrado en localStorage');
-        }
-
-
-        let req = new Request(`http://localhost:8090/estaciones`, {
-            method: 'POST',
-            redirect: 'follow',
-            headers: new Headers({
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }),
-            body: JSON.stringify(info)
-        })
-
-        fetch(req)
-        .then(response => {
-            if (response.status == 201){
-                //
-                form.reset();
-                onSuccess('Estación creada con éxito!');
-            }
-            else{
-                throw new Error("Error inesperado al crear la estación, intentelo de nuevo");
-            }
+        crearEstacion(info)
+        .then((response) => {
+            form.reset();
+            onSuccess('Estación creada con éxito!');
         })
         .catch( error => {
             onError(error.message);

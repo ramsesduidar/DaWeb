@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { removeEstacion } from '../api/ApiEstaciones';
 
 function RemoveEstacion({onSuccess, onError, ...props}) {
 
@@ -22,33 +23,10 @@ function RemoveEstacion({onSuccess, onError, ...props}) {
     else{
         var idEstacion = form.idEstacion.value;
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-          onError('Token no encontrado en localStorage');
-        }
-
-
-        let req = new Request(`http://localhost:3030/estaciones/${idEstacion}`, {
-            method: 'DELETE',
-            redirect: 'follow',
-            headers: new Headers({
-                "Authorization": `Bearer ${token}`,
-            }),
-        })
-
-        fetch(req)
-        .then(response => {
-            if (response.ok){
-                return response.json();
-            }
-            else{
-                throw new Error("Error inesperado al eliminar la estación, intentelo de nuevo");
-            }
-        })
-        .then(data => {
-            console.log(data);
+        removeEstacion(idEstacion)
+        .then(count => {
             form.reset();
-            if(data.deletedCount === 0)
+            if(count === 0)
                 onError("No se han encontrado estaciones con el id: " + idEstacion);
             else{
                 onSuccess("Estación eliminada con éxito");
@@ -90,8 +68,9 @@ function RemoveEstacion({onSuccess, onError, ...props}) {
         </Row>
         <Row className='mb-3'>
             <Form.Group as={Col} md="7" controlId="aceptar">
-                <Form.Label>Escriba ACEPTAR</Form.Label>
+                <Form.Label  >Escriba ACEPTAR</Form.Label>
                 <Form.Control
+                    autoComplete="off"
                     required
                     type="text"
                     placeholder=""

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { darBajaBici } from '../api/ApiBicis';
 
 function RemoveBici({idBici, onSuccess, onError, ...props}) {
 
@@ -25,32 +26,11 @@ function RemoveBici({idBici, onSuccess, onError, ...props}) {
             idBici: idBici,
         };
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-          onError('Token no encontrado en localStorage');
-        }
-
-
-        let req = new Request(`http://localhost:8090/bicis/${idBici}`, {
-            method: 'PATCH',
-            redirect: 'follow',
-            headers: new Headers({
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }),
-            body: JSON.stringify(info.motivo)
-        })
-
-        fetch(req)
-        .then(response => {
-            if (response.status == 204){
-                //
-                form.reset();
-                onSuccess("Bici dada de baja con éxito!");
-            }
-            else{
-                onError("Error inesperado al dar de baja la bici, intentelo de nuevo");
-            }
+        darBajaBici(info.idBici, info.motivo)
+        .then((response) => { 
+          console.log("RemoveBici:" + response)
+          form.reset();
+          onSuccess("Bici dada de baja con éxito!");
         })
         .catch(error => {
           console.log(error);
@@ -87,7 +67,7 @@ function RemoveBici({idBici, onSuccess, onError, ...props}) {
             </Form.Group>
         </Row>
         <Row className='mb-3'>
-            <Form.Group as={Col} md="4" controlId="idEstacion">
+            <Form.Group as={Col} md="4" controlId="idBici">
                 <Form.Label>Id de la Bici</Form.Label>
                 <Form.Control plaintext readOnly defaultValue={idBici} />
             </Form.Group>

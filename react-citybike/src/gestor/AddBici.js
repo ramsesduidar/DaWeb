@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { addBiciToEstacion } from '../api/ApiBicis';
 
 function AddBici({idEstacion, onSuccess,  onError, ...props}) {
 
@@ -25,33 +26,11 @@ function AddBici({idEstacion, onSuccess,  onError, ...props}) {
             idEstacion: idEstacion,
         };
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-          onError('Token no encontrado en localStorage');
-        }
-
-
-        let req = new Request(`http://localhost:8090/bicis`, {
-            method: 'POST',
-            redirect: 'follow',
-            headers: new Headers({
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }),
-            body: JSON.stringify(info)
-        })
-
-        fetch(req)
-        .then(response => {
-            if (response.ok){
-                //
-                form.reset();
-                onSuccess("Bici creada con éxito!");
-            }
-            else{
-                console.log("Error inesperado al crear la bici, intentelo de nuevo");
-                onError("Error inesperado al crear la bici, intentelo de nuevo");
-            }
+        addBiciToEstacion(idEstacion, info)
+        .then((respuesta) => {
+          console.log("AddBici: " + respuesta);
+          form.reset();
+          onSuccess("Bici creada con éxito!");
         })
         .catch(error => {
           console.log(error);
