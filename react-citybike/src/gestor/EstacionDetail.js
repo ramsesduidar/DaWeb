@@ -10,9 +10,11 @@ import { modificarEstacion } from '../api/ApiEstaciones';
 const EstacionDetail = ({estacion, onSuccess, onError}) => {
   const [validated, setValidated] = useState(false);
   const [editando, setEditando] = useState(false);
+  const rol = localStorage.getItem("rol");
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
+    
     event.preventDefault();
     event.stopPropagation();
     
@@ -182,8 +184,13 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
           <Form.Control.Feedback type="invalid">La longitud debe de ser un numero real. Usa punto para separar decimales.</Form.Control.Feedback>
         </Col>
       </Form.Group>
-      <Button type="reset" variant={editando ? "danger" : "primary"} onClick={() => {setEditando(!editando)}} style={{marginRight: "10px"}}>{editando ? "Cancelar" : "Editar Estación"}</Button>
-      {editando && <Button type='submit' variant='success'>Confirmar edición</Button>}
+      {rol === 'gestor' && 
+      (
+        <>
+        <Button type="reset" variant={editando ? "danger" : "primary"} onClick={() => {setEditando(!editando)}} style={{marginRight: "10px"}}>{editando ? "Cancelar" : "Editar Estación"}</Button>
+        {editando && <Button type='submit' variant='success'>Confirmar edición</Button>}
+        </>
+      )}
     </Form>
     </>
   );

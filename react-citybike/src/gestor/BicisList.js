@@ -16,6 +16,8 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
 
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
+  const rol = localStorage.getItem("rol");
+
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });
     setRefresh(!refresh);
@@ -67,13 +69,16 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
               <td>{bici.modelo}</td>
               <td>{bici.estado}</td>
               <td>{bici.idEstacion}</td>
-              <td>
-                {bici.estado != "DE_BAJA" && (
-                <Button variant="danger" onClick={() => {setModalShow(true); setIdBiciToRemove(bici.id)}}>
-                    Dar de Baja -
-                </Button>
-                )}
-              </td>
+              {rol === 'gestor' &&
+              (
+                <td>
+                  {bici.estado != "DE_BAJA" && (
+                  <Button variant="danger" onClick={() => {setModalShow(true); setIdBiciToRemove(bici.id)}}>
+                      Dar de Baja -
+                  </Button>
+                  )}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
@@ -89,13 +94,16 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
           {notification.message}
         </Alert>
       )}
-      <RemoveBici
-        idBici={idBiciToRemove}
-        show={modalShow}
-        onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
-        onError={(message) => { setModalShow(false); handleError(message); }}
-        onClose={() => { setModalShow(false); }}
-      />
+      {rol === 'gestor' &&
+      (
+        <RemoveBici
+          idBici={idBiciToRemove}
+          show={modalShow}
+          onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
+          onError={(message) => { setModalShow(false); handleError(message); }}
+          onClose={() => { setModalShow(false); }}
+        />
+      )}
     </div>
   );
 };
