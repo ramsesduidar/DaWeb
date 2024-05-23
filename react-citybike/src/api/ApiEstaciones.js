@@ -3,7 +3,10 @@ export async function getEstacion(id){
     try {
         const response = await fetch(`http://localhost:8090/estaciones/${id}`);
         if (!response.ok) {
-            throw new Error('Error al obtener datos');
+            if (response.status === 404)
+                throw new Error('No existe la estación con id: ' + id);
+            else
+                throw new Error('Error al obtener datos');
         }
         return response.json();
     } catch (error) {

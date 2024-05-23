@@ -9,9 +9,10 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
 const PageVerEstacionGestor = () => {
+  const [error, setError] = useState("");
   const [refresh, setRefresh] = useState(false);
   const { id } = useParams();
-  const { estacion } = useEstacionesDeatil(id, refresh);
+  const { estacion } = useEstacionesDeatil(id, refresh, setError);
   
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
@@ -24,6 +25,9 @@ const PageVerEstacionGestor = () => {
     setNotification({ show: true, message, variant: 'danger' });
   };
 
+  if(error){
+    return <h2>{error}</h2>
+  }
   
   if (!estacion) {
     return <p>Cargando...</p>;
