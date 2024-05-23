@@ -1,35 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import useEstacionesDeatil from './hooks/useEstacionesDeatil';
-import BicisList from './BicisList';
-import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
-import AddBici from './AddBici';
 
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+
 import { modificarEstacion } from '../api/ApiEstaciones';
 
-const EstacionDetail = () => {
-  const [modalShow, setModalShow] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const { id } = useParams();
-  const { estacion } = useEstacionesDeatil(id, refresh);
-  
-  const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
-
+const EstacionDetail = ({estacion, onSuccess, onError}) => {
   const [validated, setValidated] = useState(false);
   const [editando, setEditando] = useState(false);
-
-  const handleSuccess = (message) => {
-    setNotification({ show: true, message, variant: 'success' });
-    setRefresh(!refresh);
-  };
-
-  const handleError = (message) => {
-    setNotification({ show: true, message, variant: 'danger' });
-  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -48,13 +28,12 @@ const EstacionDetail = () => {
         longitud: Number(form.longitud.value)
       };
 
-      modificarEstacion(id, info)
+      modificarEstacion(estacion.id, info)
       .then((response) => {
-          setNotification({ show: true, message: 'Estación modificada con éxito!', variant: 'success' });
-          setRefresh(!refresh)
+          onSuccess('Estación modificada con éxito!');
       })
       .catch( error => {
-        setNotification({ show: true, message: error.message, variant: 'danger' });
+        onError(error.message);
       })
 
       setEditando(false);
@@ -62,21 +41,17 @@ const EstacionDetail = () => {
     }
   };
 
-  
-
   if (!estacion) {
     return <p>Cargando...</p>;
   }
 
   return (
-    <div style={{padding: 30}}>
-    
+    <>
     <div style={{display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
       <h2 style={{marginRight:"10px"}}>Detalles de la Estación:</h2>
       <h2>{estacion.nombre}</h2>
     </div>
     
-      
     <Form noValidate validated={validated} onSubmit={handleSubmit} >
       <Form.Group as={Row} className="mb-3" controlId="nombre">
         <Form.Label column sm={2}>
@@ -210,37 +185,7 @@ const EstacionDetail = () => {
       <Button type="reset" variant={editando ? "danger" : "primary"} onClick={() => {setEditando(!editando)}} style={{marginRight: "10px"}}>{editando ? "Cancelar" : "Editar Estación"}</Button>
       {editando && <Button type='submit' variant='success'>Confirmar edición</Button>}
     </Form>
-    
-    <BicisList 
-        refresh={refresh} 
-        setRefresh={setRefresh} 
-        idEstacion={estacion.id}
-    />
-    <Button variant="primary" disabled={!estacion.huecosLibres} onClick={() => setModalShow(true)}>
-            Add Bici +
-        </Button>
-    <AddBici
-        idEstacion={estacion.id}
-        show={modalShow}
-        onHide={() => {setModalShow(false);}}
-        onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
-        onError={(message) => { setModalShow(false); handleError(message); }}
-        backdrop="static"
-        keyboard={true} // true para poder cerrar modal con boton ESC
-      />
-      {notification.show && (
-        <Alert style={{    
-          position: "fixed",
-          top: "10px",
-          left: "12.5%",
-          width: "75%",
-          zIndex: 10 
-        }} variant={notification.variant} onClose={() => setNotification({ show: false, message: '', variant: 'success' })} dismissible>
-          {notification.message}
-        </Alert>
-      )}
-    </div>
-
+    </>
   );
 };
 

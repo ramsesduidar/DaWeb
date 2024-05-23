@@ -7,9 +7,10 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { addBiciToEstacion } from '../api/ApiBicis';
 
-function AddBici({idEstacion, onSuccess,  onError, ...props}) {
+function AddBici({idEstacion, huecosLibres, onSuccess,  onError}) {
 
   const [validated, setValidated] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   
   const handleSubmit = (event) => {
 
@@ -30,19 +31,30 @@ function AddBici({idEstacion, onSuccess,  onError, ...props}) {
         .then((respuesta) => {
           console.log("AddBici: " + respuesta);
           form.reset();
+          setModalShow(false)
           onSuccess("Bici creada con éxito!");
         })
         .catch(error => {
           console.log(error);
+          setModalShow(false)
           onError(error.message)
       })
     }
 
   };
 
+  console.log("huecoslibre: " + huecosLibres);
+
   return (
+    <>
+    <Button variant="primary" disabled={!huecosLibres} onClick={() => setModalShow(true)}>
+      Add Bici +
+    </Button>
     <Modal
-      {...props}
+      show={modalShow}
+      onHide={() => {setValidated(false); setModalShow(false)}}
+      backdrop="static"
+      keyboard={true} // true para poder cerrar modal con boton ESC
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -76,9 +88,10 @@ function AddBici({idEstacion, onSuccess,  onError, ...props}) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => {setValidated(false); props.onHide()}}>Close</Button>
+        <Button onClick={() => {setValidated(false); setModalShow(false)}}>Close</Button>
       </Modal.Footer>
     </Modal>
+    </>
   );
 }
 

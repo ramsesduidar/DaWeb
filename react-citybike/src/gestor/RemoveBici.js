@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { darBajaBici } from '../api/ApiBicis';
 
-function RemoveBici({idBici, onSuccess, onError, ...props}) {
+function RemoveBici({idBici, onSuccess, onError, onClose, ...props}) {
 
   const [validated, setValidated] = useState(false);
   
@@ -43,6 +43,9 @@ function RemoveBici({idBici, onSuccess, onError, ...props}) {
   return (
     <Modal
       {...props}
+      backdrop="static"
+      keyboard={true} // true para poder cerrar modal con boton ESC
+      onHide={() => {setValidated(false); onClose()}}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered

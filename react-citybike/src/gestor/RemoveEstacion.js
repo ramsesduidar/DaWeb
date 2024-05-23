@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 import { removeEstacion } from '../api/ApiEstaciones';
 
 function RemoveEstacion({onSuccess, onError, ...props}) {
-
+  const [modalShow, setModalShow] = useState(false);
   const [validated, setValidated] = useState(false);
   
   const handleSubmit = (event) => {
@@ -26,14 +26,18 @@ function RemoveEstacion({onSuccess, onError, ...props}) {
         removeEstacion(idEstacion)
         .then(count => {
             form.reset();
-            if(count === 0)
-                onError("No se han encontrado estaciones con el id: " + idEstacion);
+            if(count === 0){
+              setModalShow(false);
+              onError("No se han encontrado estaciones con el id: " + idEstacion);
+            }
             else{
-                onSuccess("Estación eliminada con éxito");
+              setModalShow(false);
+              onSuccess("Estación eliminada con éxito");
             }
         })
         .catch(error => {
             console.log(error);
+            setModalShow(false);
             onError(error.message)
         })
     }
@@ -41,8 +45,15 @@ function RemoveEstacion({onSuccess, onError, ...props}) {
   };
 
   return (
+    <>
+    <Button variant="danger" onClick={() => setModalShow(true)}>
+      Eliminar Estación -
+    </Button>
     <Modal
-      {...props}
+      onHide={() => {setValidated(false); setModalShow(false)}}
+      show={modalShow}
+      backdrop="static"
+      keyboard={true} // true para poder cerrar modal con boton ESC
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -83,9 +94,10 @@ function RemoveEstacion({onSuccess, onError, ...props}) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => {setValidated(false); props.onHide()}}>Cancelar</Button>
+        <Button onClick={() => {setValidated(false); setModalShow(false)}}>Cancelar</Button>
       </Modal.Footer>
     </Modal>
+    </>
   );
 }
 

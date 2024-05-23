@@ -7,8 +7,6 @@ import RemoveEstacion from './RemoveEstacion';
 
 
 function PageEstaciones() {
-  const [modalShow, setModalShow] = useState(false);
-  const [modalShow2, setModalShow2] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
@@ -26,30 +24,15 @@ function PageEstaciones() {
     <div style={{padding: 30, display: "flex", flexDirection: "column", gap: "10px"}}>
         <EstacionesList refresh={refresh}></EstacionesList>
         <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
-          <Button variant="primary" onClick={() => setModalShow(true)}>
-              Add Estación +
-          </Button>
-          <Button variant="danger" onClick={() => setModalShow2(true)}>
-              Eliminar Estación -
-          </Button>
+          <AddEstacion
+            onSuccess={handleSuccess}
+            onError={handleError}
+          />
+          <RemoveEstacion
+            onSuccess={handleSuccess}
+            onError={handleError}
+          /> 
         </div>
-        <AddEstacion
-            show={modalShow}
-            onHide={() => {setModalShow(false);}}
-            onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
-            onError={(message) => { setModalShow(false); handleError(message); }}
-            backdrop="static"
-            keyboard={true} // true para poder cerrar modal con boton ESC
-        />
-        <RemoveEstacion
-            show={modalShow2}
-            onHide={() => {setModalShow2(false);}}
-            onSuccess={(message) => { setModalShow2(false); handleSuccess(message); }}
-            onError={(message) => { setModalShow2(false); handleError(message); }}
-            backdrop="static"
-            keyboard={true} // true para poder cerrar modal con boton ESC
-        />
-       
        {notification.show && (
         <Alert  style={{    
           position: "fixed",

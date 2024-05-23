@@ -92,11 +92,9 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
       <RemoveBici
         idBici={idBiciToRemove}
         show={modalShow}
-        onHide={() => {setModalShow(false);}}
         onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
         onError={(message) => { setModalShow(false); handleError(message); }}
-        backdrop="static"
-        keyboard={true} // true para poder cerrar modal con boton ESC
+        onClose={() => { setModalShow(false); }}
       />
     </div>
   );

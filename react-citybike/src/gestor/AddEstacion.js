@@ -7,9 +7,10 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { crearEstacion } from '../api/ApiEstaciones';
 
-function AddEstacion({onSuccess, onError, ...props}) {
+function AddEstacion({onSuccess, onError}) {
 
   const [validated, setValidated] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   
   const handleSubmit = (event) => {
 
@@ -32,9 +33,11 @@ function AddEstacion({onSuccess, onError, ...props}) {
         crearEstacion(info)
         .then((response) => {
             form.reset();
+            setModalShow(false);
             onSuccess('Estación creada con éxito!');
         })
         .catch( error => {
+            setModalShow(false);
             onError(error.message);
         })
     }
@@ -42,8 +45,15 @@ function AddEstacion({onSuccess, onError, ...props}) {
   };
 
   return (
+    <>
+    <Button variant="primary" onClick={() => setModalShow(true)}>
+        Add Estación +
+    </Button>
     <Modal
-      {...props}
+      onHide={() => {setValidated(false); setModalShow(false)}}
+      show={modalShow}
+      backdrop="static"
+      keyboard={true} // true para poder cerrar modal con boton ESC
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -119,9 +129,10 @@ function AddEstacion({onSuccess, onError, ...props}) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => {setValidated(false); props.onHide()}}>Close</Button>
+        <Button onClick={() => {setValidated(false); setModalShow(false)}}>Close</Button>
       </Modal.Footer>
     </Modal>
+    </>
   );
 }
 
