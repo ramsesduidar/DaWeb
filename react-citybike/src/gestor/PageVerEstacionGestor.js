@@ -8,7 +8,7 @@ import EstacionDetail from './EstacionDetail';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
-const PageVerEstacion = () => {
+const PageVerEstacionGestor = () => {
   const [refresh, setRefresh] = useState(false);
   const { id } = useParams();
   const { estacion } = useEstacionesDeatil(id, refresh);
@@ -64,4 +64,4 @@ const PageVerEstacion = () => {
   );
 };
 
-export default PageVerEstacion;
+export default PageVerEstacionGestor;

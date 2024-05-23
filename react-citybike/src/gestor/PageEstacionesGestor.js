@@ -6,7 +6,7 @@ import AddEstacion from './AddEstacion';
 import RemoveEstacion from './RemoveEstacion';
 
 
-function PageEstaciones() {
+function PageEstacionesGestor() {
   const [refresh, setRefresh] = useState(false);
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
@@ -48,5 +48,5 @@ function PageEstaciones() {
   );
 };
 
-export default PageEstaciones;
+export default PageEstacionesGestor;
   
