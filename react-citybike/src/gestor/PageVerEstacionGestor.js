@@ -18,7 +18,7 @@ const PageVerEstacionGestor = () => {
 
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });
-    setRefresh(!refresh);
+    setRefresh(prev => !prev);
   };
 
   const handleError = (message) => {

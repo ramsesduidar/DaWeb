@@ -43,8 +43,6 @@ function AddBici({idEstacion, huecosLibres, onSuccess,  onError}) {
 
   };
 
-  console.log("huecoslibre: " + huecosLibres);
-
   return (
     <>
     <Button variant="primary" disabled={!huecosLibres} onClick={() => setModalShow(true)}>

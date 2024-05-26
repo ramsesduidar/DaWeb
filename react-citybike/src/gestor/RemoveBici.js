@@ -79,7 +79,7 @@ function RemoveBici({idBici, onSuccess, onError, onClose, ...props}) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => {setValidated(false); props.onHide()}}>Close</Button>
+        <Button onClick={() => {setValidated(false); onClose()}}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

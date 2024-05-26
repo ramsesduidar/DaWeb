@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 
 import { modificarEstacion } from '../api/ApiEstaciones';
 
-const EstacionDetail = ({estacion, onSuccess, onError}) => {
+const EstacionDetail = ({estacion, refresh, onSuccess, onError}) => {
   const [validated, setValidated] = useState(false);
   const [editando, setEditando] = useState(false);
   const rol = localStorage.getItem("rol");
@@ -63,7 +63,7 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
           <Form.Control
             required
             type="text"
-            defaultValue={estacion.nombre}
+            value={estacion.nombre}
             pattern='^(?!\s).+'
             readOnly={!editando}
             plaintext={!editando}
@@ -79,7 +79,7 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
           <Form.Control
             required
             type="text"
-            defaultValue={estacion.id}
+            value={estacion.id}
             pattern='^(?!\s).+'
             readOnly={true}
             plaintext={true}
@@ -95,7 +95,7 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
           <Form.Control
             required
             type="text"
-            defaultValue={new Date(estacion.fechaDeAlta).toLocaleString()}
+            value={new Date(estacion.fechaDeAlta).toLocaleString()}
             pattern='^(?!\s).+'
             readOnly={true}
             plaintext={true}
@@ -112,7 +112,7 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
             required
             type="number"
             min={estacion.numPuestos} max="99"
-            defaultValue={estacion.numPuestos}
+            value={estacion.numPuestos}
             pattern='^(?!\s).+'
             readOnly={!editando}
             plaintext={!editando}
@@ -128,7 +128,7 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
           <Form.Control
             required
             type="text"
-            defaultValue={estacion.huecosLibres}
+            value={estacion.huecosLibres}
             pattern='^(?!\s).+'
             readOnly={true}
             plaintext={true}
@@ -144,7 +144,7 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
           <Form.Control
             required
             type="text"
-            defaultValue={estacion.direccion}
+            value={estacion.direccion}
             pattern='^(?!\s).+'
             readOnly={!editando}
             plaintext={!editando}
@@ -160,7 +160,7 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
           <Form.Control
             required
             type="text"
-            defaultValue={estacion.coordenadas.x}
+            value={estacion.coordenadas.x}
             pattern='-?[0-9]*(\.[0-9]*)?'
             readOnly={!editando}
             plaintext={!editando}
@@ -176,7 +176,7 @@ const EstacionDetail = ({estacion, onSuccess, onError}) => {
           <Form.Control
             required
             type="text"
-            defaultValue={estacion.coordenadas.y}
+            value={estacion.coordenadas.y}
             pattern='-?[0-9]*(\.[0-9]*)?'
             readOnly={!editando}
             plaintext={!editando}
