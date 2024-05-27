@@ -12,8 +12,8 @@ import Col from 'react-bootstrap/Col';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Header } from '../header/Header';
-import PageVerEstacionGestor from '../gestor/PageVerEstacionGestor';
-import PageEstacionesGestor from '../gestor/PageEstacionesGestor';
+import PageVerEstacionUsuario from './PageVerEstacionUsuario';
+import PageEstacionesUsuario from './PageEstacionesUsuario';
 
 function UsuarioApp() {
     return (
@@ -34,10 +34,10 @@ function UsuarioApp() {
                   <h2>Contenido main gestor</h2>
                 </Route>
                 <Route path="/estaciones/:id">
-                  <PageVerEstacionGestor/>
+                  <PageVerEstacionUsuario/>
                 </Route>
                 <Route path="/estaciones">
-                  <PageEstacionesGestor />
+                  <PageEstacionesUsuario />
                 </Route>
                 <Route path="/bicis">
                   <Bicis />
