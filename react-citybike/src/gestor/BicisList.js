@@ -7,9 +7,13 @@ import Pagination from 'react-bootstrap/Pagination';
 import './EstacionesList.css';
 import useBicisList from './hooks/useBicisList';
 import RemoveBici from './RemoveBici';
+import AlquilarBici from '../usuario/AlquilarBici';
+import { checkActive } from '../api/ApiBicis';
 
 const BicisList = ({refresh, setRefresh, idEstacion}) => {
   const [idBiciToRemove, setIdBiciToRemove] = useState(null);
+  const [idBiciToAlquilar, setIdBiciToAlquilar] = useState(null);
+  const [idUsuario, setIdUsuario] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const [size, setSize] = useState(5);
   const { respuesta, loading, fetchBicis } = useBicisList(size, refresh, idEstacion);
@@ -17,6 +21,11 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
   const rol = localStorage.getItem("rol");
+
+  var claims = JSON.parse(localStorage.getItem("claims"));
+  var userId = claims.id;
+
+  const active = checkActive(userId);
 
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });
@@ -79,6 +88,16 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                   )}
                 </td>
               )}
+              {rol === 'usuario' && 
+              (
+                <td>
+                  {bici.estado == "DISPONIBLE" && active && (
+                  <Button variant="danger" onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
+                      Alquilar -
+                  </Button>
+                  )}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
@@ -98,6 +117,17 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
       (
         <RemoveBici
           idBici={idBiciToRemove}
+          show={modalShow}
+          onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
+          onError={(message) => { setModalShow(false); handleError(message); }}
+          onClose={() => { setModalShow(false); }}
+        />
+      )}
+      {rol === 'usuario' &&
+      (
+        <AlquilarBici
+          idBici={idBiciToAlquilar}
+          idUsuario={idUsuario}
           show={modalShow}
           onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
           onError={(message) => { setModalShow(false); handleError(message); }}

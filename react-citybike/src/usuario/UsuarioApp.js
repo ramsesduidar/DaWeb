@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './UsuarioApp.css'
 
-import Bicis from '../gestor/Bicis';
+import Bicis from './Bicis';
 import NavbarGestor from '../navbar/NavbarGestor';
 import Footer from '../footer/Footer';
 
@@ -31,7 +31,7 @@ function UsuarioApp() {
           <main>
               <Switch>
                 <Route exact path="/">
-                  <h2>Contenido main gestor</h2>
+                  <h2>Contenido main usuario</h2>
                 </Route>
                 <Route path="/estaciones/:id">
                   <PageVerEstacionUsuario/>

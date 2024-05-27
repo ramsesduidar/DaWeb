@@ -4,7 +4,7 @@ import EstacionesList from "../gestor/EstacionesList";
 import { useState } from "react";
 
 
-function PageEstacionesGestor() {
+function PageEstacionesUsuario() {
   const [refresh, setRefresh] = useState(false);
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
@@ -38,5 +38,5 @@ function PageEstacionesGestor() {
   );
 };
 
-export default PageEstacionesGestor;
+export default PageEstacionesUsuario;
   
