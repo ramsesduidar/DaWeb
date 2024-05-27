@@ -150,9 +150,9 @@ export async function alquilar(idUsuario, idBici) {
         redirect: 'follow',
         headers: new Headers({
             "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/application/x-www-form-urlencoded"
+            "Content-Type": "application/x-www-form-urlencoded"
         }),
-        body: JSON.stringify(idBici)
+        body: "idBici="+idBici
     })
 
     return fetch(req)

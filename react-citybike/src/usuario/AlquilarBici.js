@@ -21,11 +21,8 @@ function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}
         setValidated(true);
     }
     else{
-        var info = {
-          idBici: idBici
-        };
 
-        alquilar(info.idBici, idUsuario)
+        alquilar(idUsuario, idBici)
         .then((response) => { 
           console.log("AlquilarBici:" + response)
           form.reset();
