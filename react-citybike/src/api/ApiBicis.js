@@ -146,11 +146,11 @@ export async function alquilar(idUsuario, idBici) {
 
 
     let req = new Request(`http://localhost:8090/alquileres/usuarios/${idUsuario}`, {
-        method: 'PATCH',
+        method: 'POST',
         redirect: 'follow',
         headers: new Headers({
             "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/application/x-www-form-urlencoded"
         }),
         body: JSON.stringify(idBici)
     })

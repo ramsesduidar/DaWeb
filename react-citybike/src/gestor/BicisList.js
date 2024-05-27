@@ -22,8 +22,8 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
 
   const rol = localStorage.getItem("rol");
 
-  var claims = JSON.parse(localStorage.getItem("claims"));
-  var userId = claims.id;
+  const claims = JSON.parse(localStorage.getItem("claims"));
+  const userId = claims.Id;
 
   const active = checkActive(userId);
 
@@ -92,7 +92,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
               (
                 <td>
                   {bici.estado == "DISPONIBLE" && active && (
-                  <Button variant="danger" onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
+                  <Button variant="success" onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
                       Alquilar -
                   </Button>
                   )}

@@ -22,11 +22,10 @@ function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}
     }
     else{
         var info = {
-            idUsuario: idUsuario,
-            idBici: idBici,
+          idBici: idBici
         };
 
-        alquilar(info.idBici, info.idUsuario)
+        alquilar(info.idBici, idUsuario)
         .then((response) => { 
           console.log("AlquilarBici:" + response)
           form.reset();
@@ -58,7 +57,7 @@ function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className='mb-3'>
-        <Form.Group as={Col} md="4" controlId="idBici">
+        <Form.Group as={Col} md="4" controlId="idUsuario">
                 <Form.Label>Tu id de usuario</Form.Label>
                 <Form.Control plaintext readOnly defaultValue={idUsuario} />
             </Form.Group>
