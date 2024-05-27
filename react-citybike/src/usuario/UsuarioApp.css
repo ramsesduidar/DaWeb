@@ -1,0 +1,18 @@
+.contenedor-flex{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+.no-padding{
+    padding: 0 !important;
+}
+  
+  .main{
+    flex: 1;
+  }
+  
+  .columna-flex{
+    display: flex;
+    flex-direction: column;
+  }
