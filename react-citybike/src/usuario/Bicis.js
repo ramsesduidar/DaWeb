@@ -53,7 +53,6 @@ function Bicis() {
       </Table>
         )}
         <ReservasAlquileresList
-          refresh={refresh} 
           reservas={info?.otherReserva}
           alquileres={info?.otherAlquiler}
          />

@@ -1,5 +1,5 @@
 import Table from 'react-bootstrap/Table';
-const ReservasAlquileresList = ({refresh, reservas, alquileres}) => {
+const ReservasAlquileresList = ({reservas, alquileres}) => {
 
 return (
     <div>

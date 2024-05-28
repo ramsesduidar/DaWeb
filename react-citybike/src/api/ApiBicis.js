@@ -233,14 +233,14 @@ export async function getAlquileresReservas(usuarioId) {
 
         const activeAlquiler = data.alquileres.find(alquiler => !alquiler.fin);
 
-        const otherAlquiler = data.alquileres.filter(alquiler => alquiler.fin);
+        const otherAlquileres = data.alquileres.filter(alquiler => alquiler.fin);
 
         const activeReserva = data.reservas.find(reserva => {
             const caducidad = new Date(reserva.caducidad);
             return caducidad > now;
         });
 
-        const otherReserva = data.reservas.filter(reserva => {
+        const otherReservas = data.reservas.filter(reserva => {
             const caducidad = new Date(reserva.caducidad);
             return caducidad <= now;
         });
@@ -249,7 +249,7 @@ export async function getAlquileresReservas(usuarioId) {
             return {
                 activeType: 'alquiler',
                 active: activeAlquiler,
-                otherAlquiler,
+                otherAlquiler: otherAlquileres,
                 otherReserva: data.reservas
             };
         } else if (activeReserva) {
@@ -257,7 +257,7 @@ export async function getAlquileresReservas(usuarioId) {
                 activeType: 'reserva',
                 active: activeReserva,
                 otherAlquiler: data.alquileres,
-                otherReserva
+                otherReserva: otherReservas
             };
         } else {
             return {
