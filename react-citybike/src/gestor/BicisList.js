@@ -9,6 +9,7 @@ import useBicisList from './hooks/useBicisList';
 import RemoveBici from './RemoveBici';
 import AlquilarBici from '../usuario/AlquilarBici';
 import { checkActive } from '../api/ApiBicis';
+import ReservarBici from '../usuario/ReservarBici';
 
 const BicisList = ({refresh, setRefresh, idEstacion}) => {
   const [idBiciToRemove, setIdBiciToRemove] = useState(null);
@@ -24,8 +25,6 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
 
   const claims = JSON.parse(localStorage.getItem("claims"));
   const userId = claims.Id;
-
-  const active = checkActive(userId);
 
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });
@@ -88,12 +87,22 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                   )}
                 </td>
               )}
-              {rol === 'usuario' && 
+              {rol === 'usuario' && checkActive(userId) &&
               (
                 <td>
-                  {bici.estado == "DISPONIBLE" && active && (
+                  {bici.estado == "DISPONIBLE"  && (
                   <Button variant="success" onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
                       Alquilar -
+                  </Button>
+                  )}
+                </td>
+              )}
+              {rol === 'usuario' && checkActive(userId) &&
+              (
+                <td>
+                  {bici.estado == "DISPONIBLE"  && (
+                  <Button variant="success" onClick={() => {setModalShow(true); setIdBiciToReservar(bici.id); setIdUsuario(userId)}}>
+                      Reservar -
                   </Button>
                   )}
                 </td>
@@ -123,10 +132,21 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
           onClose={() => { setModalShow(false); }}
         />
       )}
-      {rol === 'usuario' &&
+      {rol === 'usuario' && checkActive(userId) &&
       (
         <AlquilarBici
           idBici={idBiciToAlquilar}
+          idUsuario={idUsuario}
+          show={modalShow}
+          onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
+          onError={(message) => { setModalShow(false); handleError(message); }}
+          onClose={() => { setModalShow(false); }}
+        />
+      )}
+      {rol === 'usuario' && checkActive(userId) &&
+      (
+        <ReservarBici
+          idBici={idBiciToReservar}
           idUsuario={idUsuario}
           show={modalShow}
           onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}

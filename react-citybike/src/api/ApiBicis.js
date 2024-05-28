@@ -123,6 +123,7 @@ export async function checkActive(usuarioId) {
         })
         .then(data => {
             const now = new Date();
+
             const hasActiveRental = data.alquileres.some(alquiler => !alquiler.fin);
 
             const hasActiveReservation = data.reservas.some(reserva => {
@@ -145,7 +146,7 @@ export async function alquilar(idUsuario, idBici) {
     }
 
 
-    let req = new Request(`http://localhost:8090/alquileres/usuarios/${idUsuario}`, {
+    let req = new Request(`http://localhost:8090/alquileres/usuarios/${idUsuario}/alquileres`, {
         method: 'POST',
         redirect: 'follow',
         headers: new Headers({
@@ -161,6 +162,39 @@ export async function alquilar(idUsuario, idBici) {
 
             if (!response.ok){
                 throw new Error("Error inesperado al alquilar la bici, intentelo de nuevo");
+            }
+
+            return response.status;
+        })
+        .catch(error => {
+            console.log(error);
+            throw new Error(error.message)
+        })
+}
+
+export async function reservar(idUsuario, idBici) {
+    const token = getToken();
+    if (!token) {
+        throw new Error('Token no encontrado en localStorage');
+    }
+
+
+    let req = new Request(`http://localhost:8090/alquileres/usuarios/${idUsuario}/reservas`, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: new Headers({
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded"
+        }),
+        body: "idBici="+idBici
+    })
+
+    return fetch(req)
+        .then(response => {
+            console.log("respuesta reservar bici: " + response.ok)
+
+            if (!response.ok){
+                throw new Error("Error inesperado al reservar la bici, intentelo de nuevo");
             }
 
             return response.status;
