@@ -24,8 +24,8 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
 
   const rol = localStorage.getItem("rol");
 
-  const claims = JSON.parse(localStorage.getItem("claims"));
-  const userId = claims.Id;
+  var claims = JSON.parse(localStorage.getItem("claims"));
+  var userId = claims.Id;
 
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });

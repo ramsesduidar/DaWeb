@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="/stylesheets/login.css">
+<script src='./javascripts/registro-script.js'></script>
+<main class="wrapper">
+    <div class="form-wrapper sig-in">
+        <form id="registro-form" action="">
+            <h2 style="margin: 30px 0;">Registrate en CityBike</h2>
+            <span id="error-login" class="error">Ya existe un usuario con ese Id o nombre de GitHub</span>
+            <div class="input-group">
+                <input type="text" id="idUser" name="idUser">
+                <label for="username">Id de usuario</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="username" name="username">
+                <label for="idUser">Nombre usuario</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="git" name="git">
+                <label for="password">Nombre de usuario en GitHub</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="nombre" name="nombre">
+                <label for="nombre">Nombre</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="apellido" name="apellido">
+                <label for="apellido">Apellidos</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="direccion" name="direccion">
+                <label for="direccion">Dirección</label>
+            </div>
+            <button id="boton-registro" type="submit" class="btn">Registrarse con GitHub</button>
+            <div class="sign-link">
+                <p>¿Ya tienes cueanta? <a href="/login" class="signup-link">Inicia sesión</a></p>
+            </div>
+        </form>
+    </div>
+</main>

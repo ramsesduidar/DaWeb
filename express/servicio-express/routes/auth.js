@@ -39,5 +39,14 @@ router.post('/:username', function(req, res, next) {
     }
 });
 
-module.exports = router;
+/* Function to add value to the dictionary */
+function addValue(username, valores) {
+    diccionario[username] = valores;
+    console.log(`Added ${username} to the dictionary:`);
+    console.log(diccionario);
+}
+
+// Export the router and the addValue function
+module.exports = { router, addValue };
+//module.exports = router;
 
