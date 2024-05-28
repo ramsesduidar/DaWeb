@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 
 import { modificarEstacion } from '../api/ApiEstaciones';
 
-const EstacionDetail = ({estacion, refresh, onSuccess, onError}) => {
+const EstacionDetail = ({estacion, onSuccess, onError}) => {
   const [validated, setValidated] = useState(false);
   const [editando, setEditando] = useState(false);
   const rol = localStorage.getItem("rol");

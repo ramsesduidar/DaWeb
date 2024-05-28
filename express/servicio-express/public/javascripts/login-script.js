@@ -61,7 +61,6 @@ async function loginNormal(e){
             if (response2.status == 204){
                 window.location.href = `http://localhost:3000/profile/${user}`;
                 window.location.reload();
-                console.log(`http://localhost:3000/${user}`)
             }
             else{
                 console.log("Error inesperado al iniciar sesion, intentelo de nuevo");

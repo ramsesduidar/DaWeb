@@ -23,7 +23,9 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
   const rol = localStorage.getItem("rol");
 
   var claims = JSON.parse(localStorage.getItem("claims"));
-  var userId = claims.id;
+  var userId = claims.Id;
+
+  console.log(claims);
 
   const active = checkActive(userId);
 
