@@ -5,9 +5,9 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { alquilar } from '../api/ApiBicis';
+import { reservar } from '../api/ApiBicis';
 
-function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}) {
+function ReservarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}) {
 
   const [validated, setValidated] = useState(false);
   
@@ -22,11 +22,11 @@ function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}
     }
     else{
 
-        alquilar(idUsuario, idBici)
+       reservar(idUsuario, idBici)
         .then((response) => { 
-          console.log("AlquilarBici:" + response)
+          console.log("ReservarBici:" + response)
           form.reset();
-          onSuccess("Bici dada alquilada con éxito!");
+          onSuccess("Bici dada Reservada con éxito!");
         })
         .catch(error => {
           console.log(error);
@@ -48,7 +48,7 @@ function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Alquilar bicicleta
+          Reservar bicicleta
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -65,7 +65,7 @@ function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}
                 <Form.Control plaintext readOnly defaultValue={idBici} />
             </Form.Group>
         </Row>
-        <Button type="submit">Alquilar</Button>
+        <Button type="submit">Reservar</Button>
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -75,4 +75,4 @@ function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}
   );
 }
 
-export default AlquilarBici;
+export default ReservarBici;
