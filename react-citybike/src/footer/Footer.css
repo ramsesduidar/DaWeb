@@ -1,14 +1,8 @@
-/*body {
-    padding: 0;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-end;
-  }*/
+
   footer {
     background-color: #121315;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 0.75rem;
   }
   footer * {
     font-family: "Poppins", sans-serif;
@@ -20,17 +14,25 @@
     padding: 2em 1em;
   }
   .fila.primary {
-    display: grid;
-    grid-template-columns: 2fr 1fr 2fr;
+    display: flex;
+    flex-direction: row;
     align-items: stretch;
   }
+
+  @media (max-width: 768px) {
+    .fila.primary {
+      flex-direction: column;
+    }
+  }
+
   .columna {
     width: 100%;
     display: flex;
     flex-direction: column;
     padding: 0 2em;
-    min-height: 15em;
+    min-height: 10em;
   }
+
   .footer-h3 {
     width: 100%;
     text-align: left;
