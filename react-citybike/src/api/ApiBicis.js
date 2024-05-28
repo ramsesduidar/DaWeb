@@ -139,37 +139,6 @@ export async function checkActive(usuarioId) {
         });
 }
 
-export async function getAlquileresReservas(usuarioId) {
-    const token = getToken();
-    if (!token) {
-        throw new Error('Token no encontrado en localStorage');
-    }
-
-    let req = new Request(`http://localhost:8090/alquileres/usuarios/${usuarioId}`, {
-        method: 'GET',
-        redirect: 'follow',
-        headers: new Headers({
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        })
-    });
-
-    return fetch(req)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error al obtener datos del usuario");
-            }
-            return response.json();
-        })
-        .then(data => {
-            return data;
-        })
-        .catch(error => {
-            console.error(error);
-            throw new Error(error.message);
-        });
-}
-
 export async function alquilar(idUsuario, idBici) {
     const token = getToken();
     if (!token) {
@@ -234,5 +203,76 @@ export async function reservar(idUsuario, idBici) {
             console.log(error);
             throw new Error(error.message)
         })
+}
+
+
+export async function getAlquileresReservas(usuarioId) {
+    const token = getToken();
+    if (!token) {
+        throw new Error('Token no encontrado en localStorage');
+    }
+
+    const url = `http://localhost:8090/alquileres/usuarios/${usuarioId}`;
+    let req = new Request(url, {
+        method: 'GET',
+        redirect: 'follow',
+        headers: new Headers({
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        })
+    });
+
+    try {
+        const response = await fetch(req);
+        if (!response.ok) {
+            throw new Error(`Error al obtener datos del usuario: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const now = new Date();
+
+        const activeAlquiler = data.alquileres.find(alquiler => !alquiler.fin);
+
+        const otherAlquiler = data.alquileres.filter(alquiler => alquiler.fin);
+
+        const activeReserva = data.reservas.find(reserva => {
+            const caducidad = new Date(reserva.caducidad);
+            return caducidad > now;
+        });
+
+        const otherReserva = data.reservas.filter(reserva => {
+            const caducidad = new Date(reserva.caducidad);
+            return caducidad <= now;
+        });
+
+        console.log(activeAlquiler);
+
+        if (activeAlquiler) {
+            return {
+                activeType: 'alquiler',
+                active: activeAlquiler,
+                otherAlquiler,
+                otherReserva: data.reservas
+            };
+        } else if (activeReserva) {
+            return {
+                activeType: 'reserva',
+                active: activeReserva,
+                otherAlquiler: data.alquileres,
+                otherReserva
+            };
+        } else {
+            return {
+                activeType: null,
+                active: null,
+                otherAlquiler: data.alquileres,
+                otherReserva: data.reservas
+            };
+        }
+
+    } catch (error) {
+        console.error("Error:", error.message);
+        throw new Error(error.message);
+    }
 }
 

@@ -1,35 +1,41 @@
 import { checkActive, getAlquileresReservas } from '../api/ApiBicis';
+import Table from 'react-bootstrap/Table';
 import { useState } from "react";
 import Alert from 'react-bootstrap/Alert';
 import ReservasAlquileresList from './ReservasAlquileresList';
 
 function Bicis() {
 
-  const [error, setError] = useState("");
   const [refresh, setRefresh] = useState(false);
-  const { id } = useParams();
-  const { estacion } = useEstacionesDeatil(id, refresh, setError);
+
+  var claims = JSON.parse(localStorage.getItem("claims"));
+  const idUsuario = claims.Id;
   
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
-  const handleSuccess = (message) => {
-    setNotification({ show: true, message, variant: 'success' });
-    setRefresh(prev => !prev);
-  };
-
-  const handleError = (message) => {
-    setNotification({ show: true, message, variant: 'danger' });
-  };
-
-  if(error){
-    return <h2>{error}</h2>
-  }
+  const { activeType, active, otherAlquiler, otherReserva } = getAlquileresReservas(idUsuario);
 
     return (
       <div style={{padding: 30, display: "flex", flexDirection: "column", gap: "10px"}}>
+        <ejemplo>{activeType}</ejemplo>
+        <Table striped bordered hover responsive size='md' className='estaciones-tabla'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Inicio</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>{active?.idBicicleta}</td>
+              <td>{active?.inicio}</td>
+            </tr>
+        </tbody>
+      </Table>
         <ReservasAlquileresList
-
-
+          refresh={refresh} 
+          setRefresh={setRefresh} 
+          idUsuario={idUsuario}
          />
        {notification.show && (
         <Alert  style={{    
