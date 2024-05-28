@@ -14,6 +14,7 @@ import ReservarBici from '../usuario/ReservarBici';
 const BicisList = ({refresh, setRefresh, idEstacion}) => {
   const [idBiciToRemove, setIdBiciToRemove] = useState(null);
   const [idBiciToAlquilar, setIdBiciToAlquilar] = useState(null);
+  const [idBiciToReservar, setIdBiciToReservar] = useState(null);
   const [idUsuario, setIdUsuario] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const [size, setSize] = useState(5);
@@ -87,7 +88,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                   )}
                 </td>
               )}
-              {rol === 'usuario' && checkActive(userId) &&
+              {rol === 'usuario' && !checkActive(userId) &&
               (
                 <td>
                   {bici.estado == "DISPONIBLE"  && (
@@ -97,7 +98,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                   )}
                 </td>
               )}
-              {rol === 'usuario' && checkActive(userId) &&
+              {rol === 'usuario' && !checkActive(userId) &&
               (
                 <td>
                   {bici.estado == "DISPONIBLE"  && (
@@ -132,7 +133,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
           onClose={() => { setModalShow(false); }}
         />
       )}
-      {rol === 'usuario' && checkActive(userId) &&
+      {rol === 'usuario' && !checkActive(userId) &&
       (
         <AlquilarBici
           idBici={idBiciToAlquilar}
@@ -143,7 +144,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
           onClose={() => { setModalShow(false); }}
         />
       )}
-      {rol === 'usuario' && checkActive(userId) &&
+      {rol === 'usuario' && !checkActive(userId) &&
       (
         <ReservarBici
           idBici={idBiciToReservar}
