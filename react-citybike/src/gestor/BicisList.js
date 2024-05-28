@@ -26,10 +26,6 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
   var claims = JSON.parse(localStorage.getItem("claims"));
   var userId = claims.Id;
 
-  console.log(claims);
-
-  const active = checkActive(userId);
-
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });
     setRefresh(!refresh);
