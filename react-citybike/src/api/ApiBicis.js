@@ -139,6 +139,37 @@ export async function checkActive(usuarioId) {
         });
 }
 
+export async function getAlquileresReservas(usuarioId) {
+    const token = getToken();
+    if (!token) {
+        throw new Error('Token no encontrado en localStorage');
+    }
+
+    let req = new Request(`http://localhost:8090/alquileres/usuarios/${usuarioId}`, {
+        method: 'GET',
+        redirect: 'follow',
+        headers: new Headers({
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        })
+    });
+
+    return fetch(req)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al obtener datos del usuario");
+            }
+            return response.json();
+        })
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error(error);
+            throw new Error(error.message);
+        });
+}
+
 export async function alquilar(idUsuario, idBici) {
     const token = getToken();
     if (!token) {
