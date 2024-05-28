@@ -13,11 +13,11 @@ function Bicis() {
   
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
-  const { activeType, active, otherAlquiler, otherReserva } = getAlquileresReservas(idUsuario);
+  const [info, setInfo] = useState(getAlquileresReservas(idUsuario));
 
     return (
       <div style={{padding: 30, display: "flex", flexDirection: "column", gap: "10px"}}>
-        <ejemplo>{activeType}</ejemplo>
+        <ejemplo>{info?.activeType}</ejemplo>
         <Table striped bordered hover responsive size='md' className='estaciones-tabla'>
         <thead>
           <tr>
@@ -27,8 +27,8 @@ function Bicis() {
         </thead>
         <tbody>
             <tr>
-              <td>{active?.idBicicleta}</td>
-              <td>{active?.inicio}</td>
+              <td>{info?.active?.idBicicleta}</td>
+              <td>{info?.active?.inicio}</td>
             </tr>
         </tbody>
       </Table>

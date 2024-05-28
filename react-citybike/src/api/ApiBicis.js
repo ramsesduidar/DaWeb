@@ -245,8 +245,6 @@ export async function getAlquileresReservas(usuarioId) {
             return caducidad <= now;
         });
 
-        console.log(activeAlquiler);
-
         if (activeAlquiler) {
             return {
                 activeType: 'alquiler',
