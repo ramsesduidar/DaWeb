@@ -1,0 +1,9 @@
+
+.logout-button{
+    background-color: transparent;
+    border: none;
+    color: #8D99AE;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0;
+}
