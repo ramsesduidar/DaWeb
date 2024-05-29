@@ -2,10 +2,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './UsuarioApp.css'
 
-import Bicis from './Bicis';
-import NavbarGestor from '../navbar/NavbarGestor';
-import Footer from '../footer/Footer';
+import PageVerAlquileresReservas from './PageVerAlquileresReservas';
 
+import Footer from '../footer/Footer';
+import NavbarUsuario from '../navbar/NavbarUsuario'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -25,7 +25,7 @@ function UsuarioApp() {
       </Row>
       <Row className='main'>
         <Col xs={12} md={2} className='columna-flex no-padding'>
-          <NavbarGestor />
+          <NavbarUsuario />
         </Col>
         <Col xs={12} md={10} className='no-padding'>
           <main>
@@ -39,8 +39,8 @@ function UsuarioApp() {
                 <Route path="/estaciones">
                   <PageEstacionesUsuario />
                 </Route>
-                <Route path="/bicis">
-                  <Bicis />
+                <Route path="/reservas">
+                  <PageVerAlquileresReservas />
                 </Route>
                 <Route path="*">
                   <h1>Not Found</h1>

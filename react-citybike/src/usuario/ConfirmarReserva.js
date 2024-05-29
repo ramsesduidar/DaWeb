@@ -25,7 +25,7 @@ function ConfirmarReserva({idUsuario, onSuccess, onError, onClose, ...props}) {
         .then((response) => { 
           console.log("confirmarReserva:" + response)
           form.reset();
-          onSuccess("Bici confirmarReserva con éxito!");
+          onSuccess("Reserva confirmada con éxito!");
         })
         .catch(error => {
           console.log(error);
@@ -37,9 +37,6 @@ function ConfirmarReserva({idUsuario, onSuccess, onError, onClose, ...props}) {
 
   return (
     <>
-    <Button variant="primary" onClick={() => setModalShow(true)}>
-     Confirmar Reserva +
-    </Button>
     <Modal
       {...props}
       backdrop="static"

@@ -1,17 +1,22 @@
+import Logout from '../Logout';
 import './Navbar.css';
+import { Link } from 'react-router-dom';
 
 function NavbarUsuario() {
   return (
     <nav>
       <ul>
         <li>
-            Opcion 1
+          <Link to="/">Home</Link>
         </li>
         <li>
-            Opcion 2
+          <Link to='/estaciones'>Estaciones</Link>
         </li>
         <li>
-            Opcion 3
+          <Link to="/reservas">Mis Reservas/Alquileres</Link>
+        </li>
+        <li>
+          <Logout/>
         </li>
       </ul>
     </nav>

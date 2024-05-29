@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { dejarBici } from '../api/ApiBicis';
 
-function DejarBici({idUsuario, idEstacion, huecosLibres, activeReserva, onSuccess,  onError}) {
+function DejarBici({idUsuario, idEstacion, huecosLibres, activeAlquiler, onSuccess,  onError}) {
 
   const [validated, setValidated] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -40,7 +40,7 @@ function DejarBici({idUsuario, idEstacion, huecosLibres, activeReserva, onSucces
 
   return (
     <>
-    <Button variant="primary" disabled={!huecosLibres || !activeReserva} onClick={() => setModalShow(true)}>
+    <Button variant="primary" disabled={!huecosLibres || !activeAlquiler} onClick={() => setModalShow(true)}>
     Dejar Bici +
     </Button>
     <Modal

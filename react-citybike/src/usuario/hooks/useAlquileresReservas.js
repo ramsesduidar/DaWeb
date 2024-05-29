@@ -8,7 +8,7 @@ const useAlquileresReservas = (id, refresh, setError) => {
     useEffect(() => {
         const fetchReservasalquileres = () => {
             getAlquileresReservas(id)
-                .then(data => {setEstacion(data);
+                .then(data => {setEstacion(data); console.log(data);
                 setLoading(false);})
                 .catch(error => {console.log("Error al recuperar las reservas/alquileres: " + error.message); setError(error.message)})
         };

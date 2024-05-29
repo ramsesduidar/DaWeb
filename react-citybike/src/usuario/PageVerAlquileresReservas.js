@@ -2,11 +2,14 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { useState } from "react";
 import Alert from 'react-bootstrap/Alert';
-import ReservasAlquileresList from './ReservasAlquileresList';
+import ReservasList from './ReservasList';
+import AlquileresList from './AlquileresList';
 import useBicis from './hooks/useAlquileresReservas';
 import ConfirmarReserva from './ConfirmarReserva';
+import ReservaActiva from './ReservaActiva';
+import AlquilerActivo from './AlquilerActivo';
 
-function Bicis() {
+function PageVerAlquileresReservas() {
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -19,7 +22,11 @@ function Bicis() {
   
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
-  const { info } = useBicis(idUsuario, refresh, setError);
+  const { info, loading } = useBicis(idUsuario, refresh, setError);
+
+  if (loading) {
+    return (<div>Cargando...</div>);
+  }
 
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });
@@ -36,45 +43,16 @@ function Bicis() {
 
     return (
       <div style={{padding: 30, display: "flex", flexDirection: "column", gap: "10px"}}>
-        {info?.activeType === 'alquiler' && (<div>{"Tienes un alquiler activo"}</div>)}
-        {info?.activeType === 'reserva' && (<div>{"Tienes una reserva activa"}</div>)}
-        {info?.activeType === 'alquiler' &&
-        (
-        <Table striped bordered hover responsive size='md' className='estaciones-tabla'>
-        <thead>
-          <tr>
-            <th>ID de la bici</th>
-            <th>Inicio</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr>
-              <td>{info?.active?.idBicicleta}</td>
-              <td>{info?.active?.inicio}</td>
-            </tr>
-        </tbody>
-      </Table>
-        )}
-        {info?.activeType === 'Reserva' &&
-        (
-        <Table striped bordered hover responsive size='md' className='estaciones-tabla'>
-        <thead>
-          <tr>
-            <th>ID de la bici</th>
-            <th>Creada</th>
-            <th>Caducidad</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr>
-              <td>{info?.active?.idBicicleta}</td>
-              <td>{info?.active?.creada}</td>
-              <td>{info?.active?.caducidad}</td>
-            </tr>
-        </tbody>
-      </Table>
-        )}
-        {info?.activeType === 'reserva' &&
+
+        <ReservaActiva
+          activeReserva={info?.activeReserva}
+        />
+
+        <AlquilerActivo
+          activeAlquiler={info?.activeAlquiler}
+        />
+
+        {info?.activeReserva &&
         (
         <td>
           <Button variant="success" onClick={() => {setModalShow(true)}}>
@@ -82,11 +60,16 @@ function Bicis() {
           </Button>
         </td>
         )}
-        <ReservasAlquileresList
+
+        <ReservasList
           reservas={info?.otherReserva}
+        />
+
+        <AlquileresList
           alquileres={info?.otherAlquiler}
-         />
-         {info?.activeType === 'reserva' &&
+        />
+
+         {info?.activeReserva &&
         (
         <ConfirmarReserva
           idUsuario={idUsuario}
@@ -111,4 +94,4 @@ function Bicis() {
     );
 }
   
-export default Bicis;
+export default PageVerAlquileresReservas;

@@ -25,16 +25,16 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
 
   const [error, setError] = useState("");
 
-  const { info, loading1 } = useBicis(idUsuario, refresh, setError);
-
-  if (loading1){
-    return (<div>Cargando...</div>);
-  }
-
   const rol = localStorage.getItem("rol");
 
   var claims = JSON.parse(localStorage.getItem("claims"));
   const userId = claims.Id;
+
+  const { info, loading1 } = useBicis(userId, refresh, setError);
+
+  if (loading1){
+    return (<div>Cargando...</div>);
+  }
 
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });

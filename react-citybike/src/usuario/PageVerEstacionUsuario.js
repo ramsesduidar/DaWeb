@@ -50,7 +50,7 @@ const PageVerEstacionUsuario = () => {
     idUsuario={userId}
     idEstacion={estacion.id}
     huecosLibres={estacion.huecosLibres}
-    activeReserva = {info?.activeReserva}
+    activeAlquiler = {info?.activeAlquiler}
     onSuccess={handleSuccess}
     onError={handleError}
     />
