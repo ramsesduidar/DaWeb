@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { useState } from "react";
 import Alert from 'react-bootstrap/Alert';
 import ReservasAlquileresList from './ReservasAlquileresList';
-import useBicis from './hooks/useBicis';
+import useBicis from './hooks/useAlquileresReservas';
 import ConfirmarReserva from './ConfirmarReserva';
 
 function Bicis() {

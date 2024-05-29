@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import useEstacionesDeatil from '../gestor/hooks/useEstacionesDeatil';
 import BicisList from '../gestor/BicisList';
 import EstacionDetail from '../gestor/EstacionDetail';
-import useBicis from './hooks/useBicis';
+import useBicis from './hooks/useAlquileresReservas';
 import DejarBici from './DejarBici';
 
 import Button from 'react-bootstrap/Button';

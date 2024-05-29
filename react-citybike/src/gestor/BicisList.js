@@ -8,7 +8,7 @@ import './EstacionesList.css';
 import useBicisList from './hooks/useBicisList';
 import RemoveBici from './RemoveBici';
 import AlquilarBici from '../usuario/AlquilarBici';
-import useBicis from '../usuario/hooks/useBicis';
+import useBicis from '../usuario/hooks/useAlquileresReservas';
 import ReservarBici from '../usuario/ReservarBici';
 
 const BicisList = ({refresh, setRefresh, idEstacion}) => {
@@ -25,7 +25,11 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
 
   const [error, setError] = useState("");
 
-  const { info } = useBicis(idUsuario, refresh, setError);
+  const { info, loading1 } = useBicis(idUsuario, refresh, setError);
+
+  if (loading1){
+    return (<div>Cargando...</div>);
+  }
 
   const rol = localStorage.getItem("rol");
 
@@ -93,20 +97,20 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                   )}
                 </td>
               )}
-              {rol === 'usuario' && !info.activeAlquiler && !info.activeReserva &&
+              {rol === 'usuario' && 
               (
                 <td>
-                  {bici.estado == "DISPONIBLE"  && (
+                  {bici.estado == "DISPONIBLE"  && !info.activeAlquiler && !info.activeReserva && (
                   <Button variant="success" onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
                       Alquilar -
                   </Button>
                   )}
                 </td>
               )}
-              {rol === 'usuario' && !info.activeAlquiler && !info.activeReserva &&
+              {rol === 'usuario' &&
               (
                 <td>
-                  {bici.estado == "DISPONIBLE"  && (
+                  {bici.estado == "DISPONIBLE"  && !info.activeAlquiler && !info.activeReserva && (
                   <Button variant="success" onClick={() => {setModalShow1(true); setIdBiciToReservar(bici.id); setIdUsuario(userId)}}>
                       Reservar -
                   </Button>
