@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { alquilar } from '../api/ApiBicis';
+import { alquilar, checkActive } from '../api/ApiBicis';
 
 function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}) {
 
@@ -73,6 +73,6 @@ function AlquilarBici({idBici, idUsuario, onSuccess, onError, onClose, ...props}
       </Modal.Footer>
     </Modal>
   );
-}
+  }
 
 export default AlquilarBici;

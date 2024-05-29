@@ -9,8 +9,6 @@ import { dejarBici } from '../api/ApiBicis';
 
 function DejarBici({idUsuario, idEstacion, huecosLibres, hasActiveRental, onSuccess,  onError}) {
 
-  console.log(hasActiveRental);
-
   const [validated, setValidated] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   
@@ -42,7 +40,7 @@ function DejarBici({idUsuario, idEstacion, huecosLibres, hasActiveRental, onSucc
 
   return (
     <>
-    <Button variant="primary" disabled={!huecosLibres || !hasActiveRental} onClick={() => setModalShow(true)}>
+    <Button variant="primary" disabled={!huecosLibres || hasActiveRental === true} onClick={() => setModalShow(true)}>
     Dejar Bici +
     </Button>
     <Modal

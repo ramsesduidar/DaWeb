@@ -93,7 +93,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
               (
                 <td>
                   {bici.estado == "DISPONIBLE"  && (
-                  <Button variant="success" disabled={!checkActive(userId)} onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
+                  <Button variant="success" onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
                       Alquilar -
                   </Button>
                   )}
@@ -103,7 +103,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
               (
                 <td>
                   {bici.estado == "DISPONIBLE"  && (
-                  <Button variant="success" disabled={!checkActive(userId)} onClick={() => {setModalShow1(true); setIdBiciToReservar(bici.id); setIdUsuario(userId)}}>
+                  <Button variant="success" onClick={() => {setModalShow1(true); setIdBiciToReservar(bici.id); setIdUsuario(userId)}}>
                       Reservar -
                   </Button>
                   )}

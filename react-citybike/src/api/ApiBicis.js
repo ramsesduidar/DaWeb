@@ -253,7 +253,6 @@ export async function getAlquileresReservas(usuarioId) {
                 otherReserva: data.reservas || []
             };
         } else if (activeReserva) {
-            console.log("activeReserva");
             return {
                 activeType: 'reserva',
                 active: activeReserva,
@@ -261,7 +260,6 @@ export async function getAlquileresReservas(usuarioId) {
                 otherReserva: otherReservas || []
             };
         } else {
-            console.log("nada");
             return {
                 activeType: null,
                 active: null,
