@@ -131,6 +131,9 @@ export async function checkActive(usuarioId) {
                 return caducidad > now;
             });
 
+            console.log(hasActiveRental);
+            console.log(hasActiveReservation);
+
             return hasActiveRental || hasActiveReservation;
         })
         .catch(error => {
@@ -249,24 +252,124 @@ export async function getAlquileresReservas(usuarioId) {
             return {
                 activeType: 'alquiler',
                 active: activeAlquiler,
-                otherAlquiler: otherAlquileres,
-                otherReserva: data.reservas
+                otherAlquiler: otherAlquileres || [],
+                otherReserva: data.reservas || []
             };
         } else if (activeReserva) {
             return {
                 activeType: 'reserva',
                 active: activeReserva,
-                otherAlquiler: data.alquileres,
-                otherReserva: otherReservas
+                otherAlquiler: data.alquileres || [],
+                otherReserva: otherReservas || []
             };
         } else {
             return {
                 activeType: null,
                 active: null,
-                otherAlquiler: data.alquileres,
-                otherReserva: data.reservas
+                otherAlquiler: data.alquileres || [],
+                otherReserva: data.reservas || []
             };
         }
+
+    } catch (error) {
+        console.error("Error:", error.message);
+        throw new Error(error.message);
+    }
+}
+
+export async function confirmarReserva(idUsuario) {
+    const token = getToken();
+    if (!token) {
+        throw new Error('Token no encontrado en localStorage');
+    }
+
+
+    let req = new Request(`http://localhost:8090/alquileres/usuarios/${idUsuario}/reservas`, {
+        method: 'PATCH',
+        redirect: 'follow',
+        headers: new Headers({
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded"
+        })
+    })
+
+    return fetch(req)
+        .then(response => {
+            console.log("respuesta confirmarReserva bici: " + response.ok)
+
+            if (!response.ok){
+                throw new Error("Error inesperado al confirmarReserva la bici, intentelo de nuevo");
+            }
+
+            return response.status;
+        })
+        .catch(error => {
+            console.log(error);
+            throw new Error(error.message)
+        })
+}
+
+export async function dejarBici(idUsuario, idEstacion) {
+    const token = getToken();
+    if (!token) {
+        throw new Error('Token no encontrado en localStorage');
+    }
+
+
+    let req = new Request(`http://localhost:8090/alquileres/usuarios/${idUsuario}/alquileres`, {
+        method: 'PATCH',
+        redirect: 'follow',
+        headers: new Headers({
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/x-www-form-urlencoded"
+        }),
+        body: "idEstacion="+idEstacion
+    })
+
+    return fetch(req)
+        .then(response => {
+            console.log("respuesta dejarBici bici: " + response.ok)
+
+            if (!response.ok){
+                throw new Error("Error inesperado al dejarBici la bici, intentelo de nuevo");
+            }
+
+            return response.status;
+        })
+        .catch(error => {
+            console.log(error);
+            throw new Error(error.message)
+        })
+}
+
+export async function checkActiveAlquiler(usuarioId) {
+    const token = getToken();
+    if (!token) {
+        throw new Error('Token no encontrado en localStorage');
+    }
+
+    const url = `http://localhost:8090/alquileres/usuarios/${usuarioId}`;
+    let req = new Request(url, {
+        method: 'GET',
+        redirect: 'follow',
+        headers: new Headers({
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        })
+    });
+
+    try {
+        const response = await fetch(req);
+        if (!response.ok) {
+            throw new Error(`Error al obtener datos del usuario: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Check for active rental
+        const hasActiveRental = data.alquileres.some(alquiler => !alquiler.fin);
+
+        return hasActiveRental;
 
     } catch (error) {
         console.error("Error:", error.message);

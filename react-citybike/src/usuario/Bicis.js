@@ -1,11 +1,15 @@
 import { checkActive, getAlquileresReservas } from '../api/ApiBicis';
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import { useState } from "react";
 import Alert from 'react-bootstrap/Alert';
 import ReservasAlquileresList from './ReservasAlquileresList';
 import useBicis from './hooks/useBicis';
+import ConfirmarReserva from './ConfirmarReserva';
 
 function Bicis() {
+
+  const [modalShow, setModalShow] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -40,7 +44,7 @@ function Bicis() {
         <Table striped bordered hover responsive size='md' className='estaciones-tabla'>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>ID de la bici</th>
             <th>Inicio</th>
           </tr>
         </thead>
@@ -52,10 +56,28 @@ function Bicis() {
         </tbody>
       </Table>
         )}
+        {info?.activeType === 'reserva' &&
+        (
+        <td>
+          <Button variant="success" onClick={() => {setModalShow(true)}}>
+              Confirmar reserva -
+          </Button>
+        </td>
+        )}
         <ReservasAlquileresList
           reservas={info?.otherReserva}
           alquileres={info?.otherAlquiler}
          />
+         {info?.activeType === 'reserva' &&
+        (
+        <ConfirmarReserva
+          idUsuario={idUsuario}
+          show={modalShow}
+          onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
+          onError={(message) => { setModalShow(false); handleError(message); }}
+          onClose={() => { setModalShow(false); }}
+        />
+        )}
        {notification.show && (
         <Alert  style={{    
           position: "fixed",
