@@ -99,46 +99,6 @@ export async function darBajaBici(idBici, motivo){
         })
 }
 
-export async function checkActive(usuarioId) {
-    const token = getToken();
-    if (!token) {
-        throw new Error('Token no encontrado en localStorage');
-    }
-
-    let req = new Request(`http://localhost:8090/alquileres/usuarios/${usuarioId}`, {
-        method: 'GET',
-        redirect: 'follow',
-        headers: new Headers({
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        })
-    });
-
-    return fetch(req)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error al obtener datos del usuario");
-            }
-            return response.json();
-        })
-        .then(data => {
-            const now = new Date();
-
-            const hasActiveRental = data.alquileres.some(alquiler => !alquiler.fin);
-
-            const hasActiveReservation = data.reservas.some(reserva => {
-                const caducidad = new Date(reserva.caducidad);
-                return caducidad > now;
-            });
-
-            return hasActiveRental || hasActiveReservation;
-        })
-        .catch(error => {
-            console.error(error);
-            throw new Error(error.message);
-        });
-}
-
 export async function alquilar(idUsuario, idBici) {
     const token = getToken();
     if (!token) {
@@ -247,15 +207,15 @@ export async function getAlquileresReservas(usuarioId) {
 
         if (activeAlquiler) {
             return {
-                activeType: 'alquiler',
-                active: activeAlquiler,
+                activeAlquiler: activeAlquiler,
+                activeReserva: null,
                 otherAlquiler: otherAlquileres || [],
                 otherReserva: data.reservas || []
             };
         } else if (activeReserva) {
             return {
-                activeType: 'reserva',
-                active: activeReserva,
+                activeAlquiler: null,
+                activeReserva: activeReserva,
                 otherAlquiler: data.alquileres || [],
                 otherReserva: otherReservas || []
             };
@@ -337,40 +297,5 @@ export async function dejarBici(idUsuario, idEstacion) {
             console.log(error);
             throw new Error(error.message)
         })
-}
-
-export async function checkActiveAlquiler(usuarioId) {
-    const token = getToken();
-    if (!token) {
-        throw new Error('Token no encontrado en localStorage');
-    }
-
-    const url = `http://localhost:8090/alquileres/usuarios/${usuarioId}`;
-    let req = new Request(url, {
-        method: 'GET',
-        redirect: 'follow',
-        headers: new Headers({
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        })
-    });
-
-    try {
-        const response = await fetch(req);
-        if (!response.ok) {
-            throw new Error(`Error al obtener datos del usuario: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-
-        // Check for active rental
-        const hasActiveRental = data.alquileres.some(alquiler => !alquiler.fin);
-
-        return hasActiveRental;
-
-    } catch (error) {
-        console.error("Error:", error.message);
-        throw new Error(error.message);
-    }
 }
 

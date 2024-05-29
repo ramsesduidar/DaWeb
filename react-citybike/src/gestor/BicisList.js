@@ -8,7 +8,7 @@ import './EstacionesList.css';
 import useBicisList from './hooks/useBicisList';
 import RemoveBici from './RemoveBici';
 import AlquilarBici from '../usuario/AlquilarBici';
-import { checkActive } from '../api/ApiBicis';
+import useBicis from '../usuario/hooks/useBicis';
 import ReservarBici from '../usuario/ReservarBici';
 
 const BicisList = ({refresh, setRefresh, idEstacion}) => {
@@ -22,6 +22,10 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
   const { respuesta, loading, fetchBicis } = useBicisList(size, refresh, idEstacion);
 
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
+
+  const [error, setError] = useState("");
+
+  const { info } = useBicis(idUsuario, refresh, setError);
 
   const rol = localStorage.getItem("rol");
 
@@ -89,7 +93,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                   )}
                 </td>
               )}
-              {rol === 'usuario' &&
+              {rol === 'usuario' && !info.activeAlquiler && !info.activeReserva &&
               (
                 <td>
                   {bici.estado == "DISPONIBLE"  && (
@@ -99,7 +103,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                   )}
                 </td>
               )}
-              {rol === 'usuario' &&
+              {rol === 'usuario' && !info.activeAlquiler && !info.activeReserva &&
               (
                 <td>
                   {bici.estado == "DISPONIBLE"  && (

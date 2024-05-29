@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import useEstacionesDeatil from '../gestor/hooks/useEstacionesDeatil';
 import BicisList from '../gestor/BicisList';
 import EstacionDetail from '../gestor/EstacionDetail';
-import { checkActiveAlquiler } from '../api/ApiBicis';
+import useBicis from './hooks/useBicis';
 import DejarBici from './DejarBici';
 
 import Button from 'react-bootstrap/Button';
@@ -17,6 +17,8 @@ const PageVerEstacionUsuario = () => {
 
   var claims = JSON.parse(localStorage.getItem("claims"));
   var userId = claims.Id;
+
+  const { info } = useBicis(userId, refresh, setError);
   
   const [notification, setNotification] = useState({ show: false, message: '', variant: 'success' });
 
@@ -48,7 +50,7 @@ const PageVerEstacionUsuario = () => {
     idUsuario={userId}
     idEstacion={estacion.id}
     huecosLibres={estacion.huecosLibres}
-    hasActiveRental = {checkActiveAlquiler(userId)}
+    activeReserva = {info?.activeReserva}
     onSuccess={handleSuccess}
     onError={handleError}
     />

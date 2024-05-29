@@ -1,4 +1,3 @@
-import { checkActive, getAlquileresReservas } from '../api/ApiBicis';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { useState } from "react";
