@@ -13,9 +13,6 @@ function NavbarGestor() {
           <Link to='/estaciones'>Estaciones</Link>
         </li>
         <li>
-          <Link to="/bicis">Bicis</Link>
-        </li>
-        <li>
           <Logout/>
         </li>
       </ul>

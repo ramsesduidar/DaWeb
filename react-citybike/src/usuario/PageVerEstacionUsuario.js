@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useEstacionesDeatil from '../gestor/hooks/useEstacionesDeatil';
-import BicisList from '../gestor/BicisList';
-import EstacionDetail from '../gestor/EstacionDetail';
+import BicisList from '../common/BicisList';
+import EstacionDetail from '../common/EstacionDetail';
 import useBicis from './hooks/useAlquileresReservas';
 import DejarBici from './DejarBici';
 
-import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
 const PageVerEstacionUsuario = () => {

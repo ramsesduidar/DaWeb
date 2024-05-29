@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-import EstacionesList from "./EstacionesList";
+import EstacionesList from "../common/EstacionesList";
 import { useState } from "react";
 import AddEstacion from './AddEstacion';
 import RemoveEstacion from './RemoveEstacion';

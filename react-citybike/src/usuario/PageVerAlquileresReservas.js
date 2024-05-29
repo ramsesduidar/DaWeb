@@ -56,7 +56,7 @@ function PageVerAlquileresReservas() {
         (
         <td>
           <Button variant="success" onClick={() => {setModalShow(true)}}>
-              Confirmar reserva -
+              Confirmar reserva
           </Button>
         </td>
         )}

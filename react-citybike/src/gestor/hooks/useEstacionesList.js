@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getEstacionesPaginado } from '../../api/ApiEstaciones';
 
-const useEstacionesList = (size, refresh) => {
+const useEstacionesList = (size, nombre, num, refresh) => {
   const [respuesta, setRespuesta] = useState({});
   const [loading, setLoading] = useState(true);
 
   const fetchEstaciones = async (url = `http://localhost:8090/estaciones?page=0&size=${size}`) => {
-    getEstacionesPaginado(url)
+    getEstacionesPaginado(url+`&nombre=${nombre}&numPuestos=${num}`)
       .then(data => {
         console.log(data);
         setRespuesta(data);
@@ -19,7 +19,7 @@ const useEstacionesList = (size, refresh) => {
 
   useEffect(() => {
     fetchEstaciones();
-  }, [size, refresh]);
+  }, [size, nombre, num, refresh]);
 
   return { respuesta, loading, fetchEstaciones };
 };

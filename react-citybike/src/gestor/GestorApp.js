@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './GestorApp.css'
 
-import Bicis from './Bicis';
 import NavbarGestor from '../navbar/NavbarGestor';
 import Footer from '../footer/Footer';
 
@@ -39,9 +38,6 @@ function GestorApp() {
                 </Route>
                 <Route path="/estaciones">
                   <PageEstacionesGestor />
-                </Route>
-                <Route path="/bicis">
-                  <Bicis />
                 </Route>
                 <Route path="*">
                   <h1>Not Found</h1>

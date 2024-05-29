@@ -13,7 +13,7 @@ function NavbarUsuario() {
           <Link to='/estaciones'>Estaciones</Link>
         </li>
         <li>
-          <Link to="/reservas">Mis Reservas/Alquileres</Link>
+          <Link to="/reservas">Reservas</Link>
         </li>
         <li>
           <Logout/>

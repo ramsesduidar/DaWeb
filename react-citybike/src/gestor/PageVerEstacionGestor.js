@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useEstacionesDeatil from './hooks/useEstacionesDeatil';
-import BicisList from './BicisList';
+import BicisList from '../common/BicisList';
 import AddBici from './AddBici';
-import EstacionDetail from './EstacionDetail';
+import EstacionDetail from '../common/EstacionDetail';
 
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';

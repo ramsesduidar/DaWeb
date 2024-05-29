@@ -5,8 +5,8 @@ import Alert from 'react-bootstrap/Alert';
 import Pagination from 'react-bootstrap/Pagination';
 
 import './EstacionesList.css';
-import useBicisList from './hooks/useBicisList';
-import RemoveBici from './RemoveBici';
+import useBicisList from '../gestor/hooks/useBicisList';
+import RemoveBici from '../gestor/RemoveBici';
 import AlquilarBici from '../usuario/AlquilarBici';
 import useBicis from '../usuario/hooks/useAlquileresReservas';
 import ReservarBici from '../usuario/ReservarBici';
@@ -92,7 +92,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                 <td>
                   {bici.estado != "DE_BAJA" && (
                   <Button variant="danger" onClick={() => {setModalShow(true); setIdBiciToRemove(bici.id)}}>
-                      Dar de Baja -
+                      Dar de Baja
                   </Button>
                   )}
                 </td>
@@ -102,7 +102,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                 <td>
                   {bici.estado == "DISPONIBLE"  && !info.activeAlquiler && !info.activeReserva && (
                   <Button variant="success" onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
-                      Alquilar -
+                      Alquilar
                   </Button>
                   )}
                 </td>
@@ -112,7 +112,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                 <td>
                   {bici.estado == "DISPONIBLE"  && !info.activeAlquiler && !info.activeReserva && (
                   <Button variant="success" onClick={() => {setModalShow1(true); setIdBiciToReservar(bici.id); setIdUsuario(userId)}}>
-                      Reservar -
+                      Reservar
                   </Button>
                   )}
                 </td>
