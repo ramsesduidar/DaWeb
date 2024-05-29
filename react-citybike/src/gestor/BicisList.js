@@ -17,6 +17,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
   const [idBiciToReservar, setIdBiciToReservar] = useState(null);
   const [idUsuario, setIdUsuario] = useState(null);
   const [modalShow, setModalShow] = useState(false);
+  const [modalShow1, setModalShow1] = useState(false);
   const [size, setSize] = useState(5);
   const { respuesta, loading, fetchBicis } = useBicisList(size, refresh, idEstacion);
 
@@ -25,7 +26,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
   const rol = localStorage.getItem("rol");
 
   var claims = JSON.parse(localStorage.getItem("claims"));
-  var userId = claims.Id;
+  const userId = claims.Id;
 
   const handleSuccess = (message) => {
     setNotification({ show: true, message, variant: 'success' });
@@ -88,21 +89,21 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
                   )}
                 </td>
               )}
-              {rol === 'usuario' && checkActive(userId) &&
+              {rol === 'usuario' &&
               (
                 <td>
                   {bici.estado == "DISPONIBLE"  && (
-                  <Button variant="success" onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
+                  <Button variant="success" disabled={!checkActive(userId)} onClick={() => {setModalShow(true); setIdBiciToAlquilar(bici.id); setIdUsuario(userId)}}>
                       Alquilar -
                   </Button>
                   )}
                 </td>
               )}
-              {rol === 'usuario' && checkActive(userId) &&
+              {rol === 'usuario' &&
               (
                 <td>
                   {bici.estado == "DISPONIBLE"  && (
-                  <Button variant="success" onClick={() => {setModalShow(true); setIdBiciToReservar(bici.id); setIdUsuario(userId)}}>
+                  <Button variant="success" disabled={!checkActive(userId)} onClick={() => {setModalShow1(true); setIdBiciToReservar(bici.id); setIdUsuario(userId)}}>
                       Reservar -
                   </Button>
                   )}
@@ -133,7 +134,7 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
           onClose={() => { setModalShow(false); }}
         />
       )}
-      {rol === 'usuario' && checkActive(userId) &&
+      {rol === 'usuario' &&
       (
         <AlquilarBici
           idBici={idBiciToAlquilar}
@@ -144,15 +145,15 @@ const BicisList = ({refresh, setRefresh, idEstacion}) => {
           onClose={() => { setModalShow(false); }}
         />
       )}
-      {rol === 'usuario' && checkActive(userId) &&
+      {rol === 'usuario' &&
       (
         <ReservarBici
           idBici={idBiciToReservar}
           idUsuario={idUsuario}
-          show={modalShow}
-          onSuccess={(message) => { setModalShow(false); handleSuccess(message); }}
-          onError={(message) => { setModalShow(false); handleError(message); }}
-          onClose={() => { setModalShow(false); }}
+          show={modalShow1}
+          onSuccess={(message) => { setModalShow1(false); handleSuccess(message); }}
+          onError={(message) => { setModalShow1(false); handleError(message); }}
+          onClose={() => { setModalShow1(false); }}
         />
       )}
     </div>

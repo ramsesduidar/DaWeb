@@ -39,7 +39,7 @@ function Bicis() {
       <div style={{padding: 30, display: "flex", flexDirection: "column", gap: "10px"}}>
         {info?.activeType === 'alquiler' && (<div>{"Tienes un alquiler activo"}</div>)}
         {info?.activeType === 'reserva' && (<div>{"Tienes una reserva activa"}</div>)}
-        {info?.activeType &&
+        {info?.activeType === 'alquiler' &&
         (
         <Table striped bordered hover responsive size='md' className='estaciones-tabla'>
         <thead>
@@ -52,6 +52,25 @@ function Bicis() {
             <tr>
               <td>{info?.active?.idBicicleta}</td>
               <td>{info?.active?.inicio}</td>
+            </tr>
+        </tbody>
+      </Table>
+        )}
+        {info?.activeType === 'Reserva' &&
+        (
+        <Table striped bordered hover responsive size='md' className='estaciones-tabla'>
+        <thead>
+          <tr>
+            <th>ID de la bici</th>
+            <th>Creada</th>
+            <th>Caducidad</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>{info?.active?.idBicicleta}</td>
+              <td>{info?.active?.creada}</td>
+              <td>{info?.active?.caducidad}</td>
             </tr>
         </tbody>
       </Table>

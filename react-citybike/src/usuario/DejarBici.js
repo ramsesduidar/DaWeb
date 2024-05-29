@@ -9,6 +9,8 @@ import { dejarBici } from '../api/ApiBicis';
 
 function DejarBici({idUsuario, idEstacion, huecosLibres, hasActiveRental, onSuccess,  onError}) {
 
+  console.log(hasActiveRental);
+
   const [validated, setValidated] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   

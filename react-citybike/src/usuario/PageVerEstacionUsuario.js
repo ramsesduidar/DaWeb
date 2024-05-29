@@ -14,7 +14,6 @@ const PageVerEstacionUsuario = () => {
   const [refresh, setRefresh] = useState(false);
   const { id } = useParams();
   const { estacion } = useEstacionesDeatil(id, refresh, setError);
-  const { hasActiveRental } = checkActiveAlquiler(userId);
 
   var claims = JSON.parse(localStorage.getItem("claims"));
   var userId = claims.Id;
@@ -49,7 +48,7 @@ const PageVerEstacionUsuario = () => {
     idUsuario={userId}
     idEstacion={estacion.id}
     huecosLibres={estacion.huecosLibres}
-    hasActiveRental = {hasActiveRental}
+    hasActiveRental = {checkActiveAlquiler(userId)}
     onSuccess={handleSuccess}
     onError={handleError}
     />

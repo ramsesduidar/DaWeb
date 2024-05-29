@@ -8,16 +8,16 @@ return (
         <thead>
           <tr>
             <th>ID</th>
-            <th>Inicio</th>
-            <th>Fin</th>
+            <th>Creada</th>
+            <th>Caducidad</th>
           </tr>
         </thead>
         <tbody>
           {reservas?.map(reserva => (
             <tr key={reserva.idBicicleta}>
               <td>{reserva.idBicicleta}</td>
-              <td>{reserva.inicio}</td>
-              <td>{reserva.fin}</td>
+              <td>{reserva.creada}</td>
+              <td>{reserva.caducidad}</td>
             </tr>
           ))}
         </tbody>
